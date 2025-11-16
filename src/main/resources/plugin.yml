@@ -1,0 +1,6 @@
+name: NebulaPlugin
+version: 1.0.0
+main: org.dev.nebula.NebulaPlugin
+description: text plugin for Game dev 2025
+author: Patriot & aim4ik & Nicholas
+api-version: '1.21.10'

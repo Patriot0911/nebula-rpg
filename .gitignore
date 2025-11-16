@@ -1,0 +1,5 @@
+build
+.gradle
+.idea
+server
+gradle/wrapper/gradle-wrapper.jar
