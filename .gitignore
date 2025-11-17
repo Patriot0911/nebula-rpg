@@ -4,3 +4,4 @@ build
 server
 gradle/wrapper/gradle-wrapper.jar
 bin
+.vscode
