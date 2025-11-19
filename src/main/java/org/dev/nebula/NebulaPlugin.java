@@ -19,17 +19,9 @@ import org.dev.nebula.core.services.UserService;
 import org.dev.nebula.core.skills.SkillsManager;
 
 public class NebulaPlugin extends JavaPlugin {
-    private static NebulaPlugin instance;
-
     private DatabaseManager databaseManager;
-    private UserService userService;
 
-    public static NebulaPlugin get() {
-        return instance;
-    }
-    public UserService getUserService() {
-        return userService;
-    }
+    private UserService userService;
 
     @Override
     public void onEnable() {
@@ -50,7 +42,7 @@ public class NebulaPlugin extends JavaPlugin {
 
         registerCustomMobs();
 
-        new SkillsManager(bus).registerPassiveSkills();
+        new SkillsManager(bus, userService).registerPassiveSkills();
     }
 
     public void connectToDatabase() {

@@ -5,12 +5,15 @@ import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
 import org.dev.nebula.core.eventBus.EventBus;
 import org.dev.nebula.core.eventBus.events.KillEvent;
+import org.dev.nebula.core.services.UserService;
 import org.bukkit.Particle;
 
 public class LifeStealPassive {
-    public LifeStealPassive(EventBus bus) {
+
+    public LifeStealPassive(EventBus bus, UserService userService) {
         bus.subscribe(KillEvent.class, this::onKill);
     }
+
     public void onKill(KillEvent e) {
         if(e.killer.getAttribute(Attribute.MAX_HEALTH) == null) return;
 
