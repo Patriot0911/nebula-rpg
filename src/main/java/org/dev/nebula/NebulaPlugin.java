@@ -2,13 +2,12 @@ package org.dev.nebula;
 
 import java.io.File;
 
-import javax.imageio.spi.ServiceRegistry;
-
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.dev.nebula.core.bridge.CoreEventBridgeListener;
 import org.dev.nebula.core.db.DatabaseConfig;
 import org.dev.nebula.core.db.DatabaseManager;
+import org.dev.nebula.core.db.DatabaseMigrator;
 import org.dev.nebula.core.db.dao.UserDao;
 import org.dev.nebula.core.eventBus.EventBus;
 import org.dev.nebula.core.eventBus.NebulaEventBus;
@@ -46,12 +45,15 @@ public class NebulaPlugin extends JavaPlugin {
     }
 
     public void connectToDatabase() {
+        System.out.println(getDataFolder());
         File dbFile = new File(getDataFolder(), "db.yml");
         YamlConfiguration dbCfg = YamlConfiguration.loadConfiguration(dbFile);
 
         DatabaseConfig dbConfig = new DatabaseConfig(dbCfg);
 
         databaseManager = new DatabaseManager();
+
+        DatabaseMigrator.migrate(dbConfig);
 
         try {
             databaseManager.connect(dbConfig);
