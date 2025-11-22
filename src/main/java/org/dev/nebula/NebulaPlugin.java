@@ -24,7 +24,7 @@ public class NebulaPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-
+        saveDefaultConfigs();
         connectToDatabase();
 
         EventBus bus = new NebulaEventBus();
@@ -45,7 +45,6 @@ public class NebulaPlugin extends JavaPlugin {
     }
 
     public void connectToDatabase() {
-        System.out.println(getDataFolder());
         File dbFile = new File(getDataFolder(), "db.yml");
         YamlConfiguration dbCfg = YamlConfiguration.loadConfiguration(dbFile);
 
@@ -62,6 +61,10 @@ public class NebulaPlugin extends JavaPlugin {
             getLogger().severe("Failed to connect to database: " + e.getMessage());
             getServer().getPluginManager().disablePlugin(this);
         }
+    }
+
+    public void saveDefaultConfigs() {
+        saveResource("db.yml", false);
     }
 
     public void registerCustomMobs() {

@@ -1,7 +1,7 @@
 build
 .gradle
 .idea
-server
+server-data
 gradle/wrapper/gradle-wrapper.jar
 bin
 .vscode
