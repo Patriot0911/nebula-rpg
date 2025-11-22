@@ -50,11 +50,10 @@ public class NebulaPlugin extends JavaPlugin {
 
         DatabaseConfig dbConfig = new DatabaseConfig(dbCfg);
 
-        databaseManager = new DatabaseManager();
-
-        DatabaseMigrator.migrate(dbConfig);
-
         try {
+            DatabaseMigrator.migrate(dbConfig, this.getClassLoader());
+
+            databaseManager = new DatabaseManager();
             databaseManager.connect(dbConfig);
             getLogger().info("Database connected successfully");
         } catch (Exception e) {
