@@ -8,12 +8,15 @@ import org.dev.nebula.core.bridge.CoreEventBridgeListener;
 import org.dev.nebula.core.db.DatabaseConfig;
 import org.dev.nebula.core.db.DatabaseManager;
 import org.dev.nebula.core.db.DatabaseMigrator;
+import org.dev.nebula.core.db.PlayerDataListener;
+import org.dev.nebula.core.db.dao.SkillDao;
 import org.dev.nebula.core.db.dao.UserDao;
 import org.dev.nebula.core.eventBus.EventBus;
 import org.dev.nebula.core.eventBus.NebulaEventBus;
 import org.dev.nebula.core.mobSpawn.CustomMobRegistry;
 import org.dev.nebula.core.mobSpawn.CustomMobSpawnListener;
 import org.dev.nebula.core.mobSpawn.mobs.FrostZombie;
+import org.dev.nebula.core.services.SkillsService;
 import org.dev.nebula.core.services.UserService;
 import org.dev.nebula.core.skills.SkillsManager;
 
@@ -21,6 +24,7 @@ public class NebulaPlugin extends JavaPlugin {
     private DatabaseManager databaseManager;
 
     private UserService userService;
+    private SkillsService skillsService;
 
     @Override
     public void onEnable() {
@@ -38,10 +42,18 @@ public class NebulaPlugin extends JavaPlugin {
 
         UserDao userDao = new UserDao(databaseManager);
         userService = new UserService(userDao);
+        SkillDao skillDao = new SkillDao(databaseManager);
+        skillsService = new SkillsService(skillDao);
+
+        PlayerDataListener playerDataListener = new PlayerDataListener(
+            userService, skillsService
+        );
+        playerDataListener.loadSkills();
+        getServer().getPluginManager().registerEvents(playerDataListener, this);
 
         registerCustomMobs();
 
-        new SkillsManager(bus, userService).registerPassiveSkills();
+        new SkillsManager(bus, userService, skillsService).registerPassiveSkills();
     }
 
     public void connectToDatabase() {

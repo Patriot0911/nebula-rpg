@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.UUID;
 
 import org.dev.nebula.core.db.DaoBase;
 import org.dev.nebula.core.db.DatabaseManager;
@@ -14,12 +15,12 @@ public class UserDao extends DaoBase {
         super(databaseManager);
     }
 
-    public UserData loadUser(String id) throws SQLException {
+    public UserData loadUser(UUID id) throws SQLException {
         try (Connection c = db.getConnection()) {
             PreparedStatement st = c.prepareStatement(
                 "SELECT * FROM users WHERE id = ?"
             );
-            st.setString(1, id.toString());
+            st.setObject(1, id);
 
             ResultSet rs = st.executeQuery();
             if (!rs.next()) return null;
