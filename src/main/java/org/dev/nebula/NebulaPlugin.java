@@ -5,6 +5,7 @@ import java.io.File;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.dev.nebula.core.bridge.CoreEventBridgeListener;
+import org.dev.nebula.core.commands.AdminMenuCommand;
 import org.dev.nebula.core.db.DatabaseConfig;
 import org.dev.nebula.core.db.DatabaseManager;
 import org.dev.nebula.core.db.DatabaseMigrator;
@@ -13,9 +14,10 @@ import org.dev.nebula.core.db.dao.SkillDao;
 import org.dev.nebula.core.db.dao.UserDao;
 import org.dev.nebula.core.eventBus.EventBus;
 import org.dev.nebula.core.eventBus.NebulaEventBus;
-import org.dev.nebula.core.mobSpawn.CustomMobRegistry;
-import org.dev.nebula.core.mobSpawn.CustomMobSpawnListener;
-import org.dev.nebula.core.mobSpawn.mobs.FrostZombie;
+import org.dev.nebula.core.menus.MenuListener;
+import org.dev.nebula.core.mobs.CustomMobRegistry;
+import org.dev.nebula.core.mobs.CustomMobSpawnListener;
+import org.dev.nebula.core.mobs.custom.FrostZombie;
 import org.dev.nebula.core.services.SkillsService;
 import org.dev.nebula.core.services.UserService;
 import org.dev.nebula.core.skills.SkillsManager;
@@ -37,8 +39,14 @@ public class NebulaPlugin extends JavaPlugin {
                 new CoreEventBridgeListener(bus), this
         );
         getServer().getPluginManager().registerEvents(
+                new MenuListener(), this
+        );
+        getServer().getPluginManager().registerEvents(
                 new CustomMobSpawnListener(), this
         );
+
+        // test command
+        getCommand("adminmenu").setExecutor(new AdminMenuCommand());
 
         UserDao userDao = new UserDao(databaseManager);
         userService = new UserService(userDao);

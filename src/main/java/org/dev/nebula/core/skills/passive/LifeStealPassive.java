@@ -1,10 +1,14 @@
 package org.dev.nebula.core.skills.passive;
 
+import java.util.logging.Logger;
+
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
+import org.dev.nebula.core.db.models.UserData;
 import org.dev.nebula.core.eventBus.EventBus;
 import org.dev.nebula.core.eventBus.events.KillEvent;
+import org.dev.nebula.core.menus.classic.AdminSkillsMenu;
 import org.dev.nebula.core.services.UserService;
 import org.dev.nebula.core.skills.PassiveSkillBase;
 import org.bukkit.Particle;
@@ -20,8 +24,8 @@ public class LifeStealPassive extends PassiveSkillBase {
 
     public void onKill(KillEvent e) {
         if(e.killer.getAttribute(Attribute.MAX_HEALTH) == null) return;
-
-        System.out.println("Tested");
+        UserData userData = userService.getUserData(e.killer.getUniqueId());
+        if(userData == null || !userData.hasSkill(SKILL_NAME)) return;
 
         double maxHealth = e.killer.getAttribute(Attribute.MAX_HEALTH).getValue();
         Location loc = e.killer.getLocation().add(0, 1, 0);

@@ -4,3 +4,8 @@ main: org.dev.nebula.NebulaPlugin
 description: plugin for Game dev 2025
 author: Patriot
 api-version: '1.21.10'
+commands:
+  adminmenu:
+    description: Open admin menu with skills
+    usage: /adminskills
+    permission: nebula.admin

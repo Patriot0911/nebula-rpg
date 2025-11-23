@@ -1,4 +1,4 @@
-package org.dev.nebula.core.mobSpawn;
+package org.dev.nebula.core.mobs;
 
 import java.util.List;
 

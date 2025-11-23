@@ -31,8 +31,11 @@ public class UserService {
         }
     }
     public UserData createUser(String nickname) {
-        // todo insert to database
         UserData userData = new UserData(UUID.randomUUID(), nickname, 1, 0);
         return userData;
+    }
+
+    public UserData getUserData(UUID uuid) {
+        return cache.get(uuid);
     }
 }

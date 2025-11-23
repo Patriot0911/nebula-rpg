@@ -1,4 +1,4 @@
-package org.dev.nebula.core.mobSpawn.mobs;
+package org.dev.nebula.core.mobs.custom;
 
 import java.util.Set;
 
@@ -8,7 +8,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Zombie;
 import org.bukkit.inventory.ItemStack;
-import org.dev.nebula.core.mobSpawn.CustomMob;
+import org.dev.nebula.core.mobs.CustomMob;
 
 public class FrostZombie implements CustomMob {
 
