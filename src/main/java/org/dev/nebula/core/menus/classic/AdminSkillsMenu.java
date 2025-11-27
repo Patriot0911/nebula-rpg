@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.dev.nebula.core.items.weapons.SimpleSword;
 import org.dev.nebula.core.menus.MenuBase;
 
 public class AdminSkillsMenu extends MenuBase {
@@ -27,6 +28,7 @@ public class AdminSkillsMenu extends MenuBase {
         }
 
         if (event.getCurrentItem().getType() == Material.DIAMOND) {
+            // player.getInventory().addItem(new SimpleSword());
             player.sendMessage("You clicked the diamond!");
             Bukkit.getLogger().info(player.getName() + " clicked the diamond in AdminMenu.");
         }

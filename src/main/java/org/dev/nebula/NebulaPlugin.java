@@ -14,10 +14,12 @@ import org.dev.nebula.core.db.dao.SkillDao;
 import org.dev.nebula.core.db.dao.UserDao;
 import org.dev.nebula.core.eventBus.EventBus;
 import org.dev.nebula.core.eventBus.NebulaEventBus;
+import org.dev.nebula.core.items.ItemManager;
 import org.dev.nebula.core.menus.MenuListener;
 import org.dev.nebula.core.mobs.CustomMobRegistry;
 import org.dev.nebula.core.mobs.CustomMobSpawnListener;
 import org.dev.nebula.core.mobs.custom.FrostZombie;
+import org.dev.nebula.core.services.ItemsService;
 import org.dev.nebula.core.services.SkillsService;
 import org.dev.nebula.core.services.UserService;
 import org.dev.nebula.core.skills.SkillsManager;
@@ -27,6 +29,7 @@ public class NebulaPlugin extends JavaPlugin {
 
     private UserService userService;
     private SkillsService skillsService;
+    private ItemsService ItemsService;
 
     @Override
     public void onEnable() {
@@ -45,13 +48,11 @@ public class NebulaPlugin extends JavaPlugin {
                 new CustomMobSpawnListener(), this
         );
 
-        // test command
-        getCommand("adminmenu").setExecutor(new AdminMenuCommand());
-
         UserDao userDao = new UserDao(databaseManager);
         userService = new UserService(userDao);
         SkillDao skillDao = new SkillDao(databaseManager);
         skillsService = new SkillsService(skillDao);
+        ItemsService = new ItemsService();
 
         PlayerDataListener playerDataListener = new PlayerDataListener(
             userService, skillsService
@@ -61,7 +62,13 @@ public class NebulaPlugin extends JavaPlugin {
 
         registerCustomMobs();
 
+        new ItemManager(bus, userService, ItemsService).registerItems();
         new SkillsManager(bus, userService, skillsService).registerPassiveSkills();
+
+        // test command
+        getCommand("adminmenu").setExecutor(
+            new AdminMenuCommand()
+        );
     }
 
     public void connectToDatabase() {
