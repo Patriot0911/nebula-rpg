@@ -29,7 +29,7 @@ public class NebulaPlugin extends JavaPlugin {
 
     private UserService userService;
     private SkillsService skillsService;
-    private ItemsService ItemsService;
+    private ItemsService itemsService;
 
     @Override
     public void onEnable() {
@@ -52,7 +52,7 @@ public class NebulaPlugin extends JavaPlugin {
         userService = new UserService(userDao);
         SkillDao skillDao = new SkillDao(databaseManager);
         skillsService = new SkillsService(skillDao);
-        ItemsService = new ItemsService();
+        itemsService = new ItemsService();
 
         PlayerDataListener playerDataListener = new PlayerDataListener(
             userService, skillsService
@@ -62,12 +62,12 @@ public class NebulaPlugin extends JavaPlugin {
 
         registerCustomMobs();
 
-        new ItemManager(bus, userService, ItemsService).registerItems();
+        new ItemManager(bus, userService, itemsService).loadItems();
         new SkillsManager(bus, userService, skillsService).registerPassiveSkills();
 
         // test command
         getCommand("adminmenu").setExecutor(
-            new AdminMenuCommand()
+            new AdminMenuCommand(itemsService)
         );
     }
 
