@@ -1,4 +1,4 @@
-package org.dev.nebula.core.eventBus;
+package org.dev.nebula.core.events;
 
 public interface EventBus {
     <T> void subscribe(Class<T> eventClass, EventListener<T> listener);

@@ -1,9 +1,9 @@
 package org.dev.nebula.core.skills;
 
 import org.dev.nebula.core.db.models.UserData;
-import org.dev.nebula.core.eventBus.EventBus;
-import org.dev.nebula.core.eventBus.PlayerBusEventBase;
-import org.dev.nebula.core.eventBus.PlayerEventListener;
+import org.dev.nebula.core.events.EventBus;
+import org.dev.nebula.core.events.PlayerEventListener;
+import org.dev.nebula.core.events.bases.PlayerBusEventBase;
 import org.dev.nebula.core.services.UserService;
 
 public abstract class PassiveSkillBase {

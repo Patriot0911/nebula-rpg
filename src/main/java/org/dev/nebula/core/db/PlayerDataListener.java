@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.dev.nebula.core.db.models.UserData;
 import org.dev.nebula.core.services.SkillsService;
 import org.dev.nebula.core.services.UserService;
@@ -27,13 +28,21 @@ public class PlayerDataListener implements Listener {
         UserData userData = userService.loadUser(uuid);
 
         if (userData == null) {
-            userData = userService.createUser(nickname);
+            userData = userService.createUser(uuid, nickname);
             Bukkit.getLogger().info("Created new user: " + nickname);
-        } else {
-            Bukkit.getLogger().info("Loaded user data for: " + nickname);
         }
 
         userService.putUserInCache(userData);
+    }
+
+    @EventHandler
+    public void onQuit(PlayerQuitEvent event) {
+        UUID uuid = event.getPlayer().getUniqueId();
+
+        UserData userData = userService.getUserData(uuid);
+        if (userData == null) return;
+
+        userService.saveUser(userData);
     }
 
     public void loadSkills() {

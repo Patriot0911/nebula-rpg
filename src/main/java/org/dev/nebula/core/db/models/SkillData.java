@@ -6,6 +6,7 @@ import java.util.UUID;
 public class SkillData {
 
     private final UUID id;
+    private final UUID skillId;
     private final String name;
     private int level = 1;
     private Map<String, Object> data;
@@ -13,8 +14,9 @@ public class SkillData {
     private boolean isNew = false;
     private boolean isModified = false;
 
-    public SkillData(UUID id, String name, int level, Map<String, Object> data) {
+    public SkillData(UUID id, UUID skillId, String name, int level, Map<String, Object> data) {
         this.id = id;
+        this.skillId = skillId;
         this.name = name;
         this.level = level;
         this.data = data;
@@ -22,6 +24,9 @@ public class SkillData {
 
     public UUID getId() {
         return id;
+    }
+    public UUID getSkillId() {
+        return skillId;
     }
     public String getName() {
         return name;

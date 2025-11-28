@@ -1,9 +1,9 @@
-package org.dev.nebula.core.eventBus.events.damage;
+package org.dev.nebula.core.events.busEvents.damage;
 
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.dev.nebula.core.eventBus.PlayerBusEventBase;
+import org.dev.nebula.core.events.bases.PlayerBusEventBase;
 
 public class DamageTakeEvent extends PlayerBusEventBase<EntityDamageByEntityEvent> {
     public final LivingEntity attacker;

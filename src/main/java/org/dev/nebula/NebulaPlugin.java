@@ -12,8 +12,8 @@ import org.dev.nebula.core.db.DatabaseMigrator;
 import org.dev.nebula.core.db.PlayerDataListener;
 import org.dev.nebula.core.db.dao.SkillDao;
 import org.dev.nebula.core.db.dao.UserDao;
-import org.dev.nebula.core.eventBus.EventBus;
-import org.dev.nebula.core.eventBus.NebulaEventBus;
+import org.dev.nebula.core.events.EventBus;
+import org.dev.nebula.core.events.NebulaEventBus;
 import org.dev.nebula.core.items.ItemManager;
 import org.dev.nebula.core.menus.MenuListener;
 import org.dev.nebula.core.mobs.CustomMobRegistry;
@@ -49,7 +49,7 @@ public class NebulaPlugin extends JavaPlugin {
         );
 
         UserDao userDao = new UserDao(databaseManager);
-        userService = new UserService(userDao);
+        userService = new UserService(userDao, this);
         SkillDao skillDao = new SkillDao(databaseManager);
         skillsService = new SkillsService(skillDao);
         itemsService = new ItemsService();

@@ -60,6 +60,9 @@ public class UserData {
     public boolean hasSkill(String skillName) {
         return skills.containsKey(skillName);
     }
+    public HashMap<String, SkillData> getAllSkills() {
+        return this.skills;
+    }
 
     public int getLevelUpExp() {
         return (level + 1) * 75;

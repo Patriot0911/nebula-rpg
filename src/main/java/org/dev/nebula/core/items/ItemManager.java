@@ -1,9 +1,6 @@
 package org.dev.nebula.core.items;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.dev.nebula.core.eventBus.EventBus;
+import org.dev.nebula.core.events.EventBus;
 import org.dev.nebula.core.services.ItemsService;
 import org.dev.nebula.core.services.UserService;
 

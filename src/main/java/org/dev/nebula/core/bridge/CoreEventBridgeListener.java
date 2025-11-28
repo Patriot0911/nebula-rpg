@@ -6,14 +6,24 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.EntityPickupItemEvent;
+import org.bukkit.event.inventory.CraftItemEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.dev.nebula.core.eventBus.EventBus;
-import org.dev.nebula.core.eventBus.events.damage.DamageGiveEvent;
-import org.dev.nebula.core.eventBus.events.damage.DamagePostEvent;
-import org.dev.nebula.core.eventBus.events.damage.DamageTakeEvent;
-import org.dev.nebula.core.eventBus.events.death.DeathEvent;
-import org.dev.nebula.core.eventBus.events.death.KillEvent;
-import org.dev.nebula.core.eventBus.events.items.PlayerInteract;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
+import org.dev.nebula.core.events.EventBus;
+import org.dev.nebula.core.events.busEvents.damage.DamageGiveEvent;
+import org.dev.nebula.core.events.busEvents.damage.DamagePostEvent;
+import org.dev.nebula.core.events.busEvents.damage.DamageTakeEvent;
+import org.dev.nebula.core.events.busEvents.items.CraftItemEventBusEvent;
+import org.dev.nebula.core.events.busEvents.items.EntityPickupItemBusEvent;
+import org.dev.nebula.core.events.busEvents.items.InventoryClickBusEvent;
+import org.dev.nebula.core.events.busEvents.items.PlayerDropItemBusEvent;
+import org.dev.nebula.core.events.busEvents.items.PlayerInteractBusEvent;
+import org.dev.nebula.core.events.busEvents.items.PlayerItemConsumeBusEvent;
+import org.dev.nebula.core.events.busEvents.playerDeath.PlayerDeathEvent;
+import org.dev.nebula.core.events.busEvents.playerDeath.PlayerKillEvent;
 
 public class CoreEventBridgeListener implements Listener {
 
@@ -27,17 +37,42 @@ public class CoreEventBridgeListener implements Listener {
     public void onKill(EntityDeathEvent event) {
         var killer = event.getEntity().getKiller();
         if(killer != null && killer instanceof Player) {
-            eventBus.publish(new KillEvent(event, killer, event.getEntity()));
+            eventBus.publish(new PlayerKillEvent(event, killer, event.getEntity()));
         }
         if(event.getEntity() != null && event.getEntity() instanceof Player victim) {
-            eventBus.publish(new DeathEvent(event, victim));
+            eventBus.publish(new PlayerDeathEvent(event, victim));
         }
     }
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
-        PlayerInteract playerInteract = new PlayerInteract(event);
-        eventBus.publish(playerInteract);
+        PlayerInteractBusEvent interactEvent = new PlayerInteractBusEvent(event);
+        eventBus.publish(interactEvent);
+    }
+    @EventHandler
+    public void PlayerDropItem(PlayerDropItemEvent event) {
+        PlayerDropItemBusEvent dropEvent = new PlayerDropItemBusEvent(event);
+        eventBus.publish(dropEvent);
+    }
+    @EventHandler
+    public void onEntityPickup(EntityPickupItemEvent event) {
+        EntityPickupItemBusEvent pickupEvent = new EntityPickupItemBusEvent(event);
+        eventBus.publish(pickupEvent);
+    }
+    @EventHandler
+    public void onPlayerItemConsume(PlayerItemConsumeEvent event) {
+        PlayerItemConsumeBusEvent consumeBusEvent = new PlayerItemConsumeBusEvent(event);
+        eventBus.publish(consumeBusEvent);
+    }
+    @EventHandler
+    public void onInventoryClick(InventoryClickEvent event) {
+        InventoryClickBusEvent consumeBusEvent = new InventoryClickBusEvent(event);
+        eventBus.publish(consumeBusEvent);
+    }
+    @EventHandler
+    public void onCraftItem(CraftItemEvent event) {
+        CraftItemEventBusEvent consumeBusEvent = new CraftItemEventBusEvent(event);
+        eventBus.publish(consumeBusEvent);
     }
 
     @EventHandler

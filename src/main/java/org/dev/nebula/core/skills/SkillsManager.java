@@ -1,6 +1,6 @@
 package org.dev.nebula.core.skills;
 
-import org.dev.nebula.core.eventBus.EventBus;
+import org.dev.nebula.core.events.EventBus;
 import org.dev.nebula.core.services.SkillsService;
 import org.dev.nebula.core.services.UserService;
 

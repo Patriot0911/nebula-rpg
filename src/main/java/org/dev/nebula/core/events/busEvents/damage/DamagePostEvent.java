@@ -1,4 +1,4 @@
-package org.dev.nebula.core.eventBus.events.damage;
+package org.dev.nebula.core.events.busEvents.damage;
 
 import org.bukkit.entity.LivingEntity;
 

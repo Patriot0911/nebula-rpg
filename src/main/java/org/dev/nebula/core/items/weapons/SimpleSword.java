@@ -1,31 +1,38 @@
 package org.dev.nebula.core.items.weapons;
 
 import java.util.List;
+import java.util.UUID;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataType;
-import org.dev.nebula.core.eventBus.EventBus;
+import org.dev.nebula.core.db.models.SkillData;
+import org.dev.nebula.core.events.EventBus;
+import org.dev.nebula.core.events.busEvents.items.PlayerInteractBusEvent;
 import org.dev.nebula.core.items.ItemBase;
+import org.dev.nebula.core.items.ItemManager;
 import org.dev.nebula.core.services.UserService;
+import org.dev.nebula.core.skills.passive.LifeStealPassive;
+
+import net.kyori.adventure.text.format.NamedTextColor;
 
 public class SimpleSword extends ItemBase {
     public static final String ITEM_NAME = "simple_sword";
 
     public SimpleSword(EventBus bus, UserService userService) {
-        super(bus, userService);
+        super(userService);
+        bus.subscribe(PlayerInteractBusEvent.class, this::onPlayerInteract);
     }
 
     @Override
     public ItemStack createItemStack() {
-        ItemStack item = new ItemStack(Material.DIAMOND_SWORD);
+        ItemStack item = new ItemStack(Material.NETHER_BRICK);
         ItemMeta meta = item.getItemMeta();
 
-        meta.setDisplayName(ChatColor.AQUA + getItemName());
+        meta.setDisplayName(NamedTextColor.AQUA + getItemName());
         meta.setLore(List.of(getItemDescription()));
 
         meta.addItemFlags(
@@ -34,19 +41,31 @@ public class SimpleSword extends ItemBase {
             ItemFlag.HIDE_ENCHANTS
         );
 
-        meta.getPersistentDataContainer().set(
-            getItemTag(),
-            PersistentDataType.STRING,
-            ITEM_NAME
-        );
+        setItemTagName(meta);
 
         item.setItemMeta(meta);
         return item;
     }
 
+    public void onPlayerInteract(PlayerInteractBusEvent e) {
+        ItemStack itemStack = e.event.getPlayer().getInventory().getItemInMainHand();
+        if(itemStack == null) return;
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        if(!isSameItem(itemMeta)) return;
+        Player player = e.event.getPlayer();
+        int itemSlot = player.getInventory().getHeldItemSlot();
+        player.getInventory().setItem(itemSlot, null);
+
+        UUID skillUuid = UUID.nameUUIDFromBytes(LifeStealPassive.SKILL_NAME.getBytes());
+        userService.getUserData(player.getUniqueId()).addSkill(
+            new SkillData(UUID.randomUUID(), skillUuid, LifeStealPassive.SKILL_NAME, 1, null)
+        );
+        System.out.println(SimpleSword.ITEM_NAME);
+    }
+
     @Override
     public NamespacedKey getItemTag() {
-        return new NamespacedKey("nebula.weapons", ITEM_NAME);
+        return new NamespacedKey(ItemManager.WeaponNameSpace, SimpleSword.ITEM_NAME);
     }
     @Override
     public String getItemKeyName() {
