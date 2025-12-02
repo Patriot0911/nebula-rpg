@@ -74,4 +74,32 @@ public class UserData {
             level++;
         }
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("UserData {")
+        .append("id=").append(id).append(", ")
+        .append("nickName='").append(nickName).append("', ")
+        .append("level=").append(level).append(", ")
+        .append("exp=").append(exp).append(", ")
+        .append("skills=[");
+
+        boolean first = true;
+        for (SkillData skill : skills.values()) {
+            if (skill == null) continue;
+
+            if (!first) sb.append(", ");
+            first = false;
+
+            sb.append("{name=").append(skill.getName())
+            .append(", level=").append(skill.getLevel())
+            .append(", isNew=").append(skill.isNew())
+            .append(", isModified=").append(skill.isModified())
+            .append("}");
+        }
+
+        sb.append("]}");
+        return sb.toString();
+    }
 }

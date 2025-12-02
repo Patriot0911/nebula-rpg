@@ -22,7 +22,9 @@ public class UserService {
 
     public UserData loadUser(UUID uuid) {
         try {
-            return userDao.loadUser(uuid);
+            UserData userData = userDao.loadUser(uuid);
+            userDao.loadUserSkills(userData);
+            return userData;
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -29,8 +29,9 @@ public class PlayerDataListener implements Listener {
 
         if (userData == null) {
             userData = userService.createUser(uuid, nickname);
-            Bukkit.getLogger().info("Created new user: " + nickname);
         }
+
+        System.out.println(userData.toString());
 
         userService.putUserInCache(userData);
     }

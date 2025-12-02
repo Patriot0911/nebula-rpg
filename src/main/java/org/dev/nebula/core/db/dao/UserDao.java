@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import org.dev.nebula.core.db.DaoBase;
@@ -30,8 +33,33 @@ public class UserDao extends DaoBase {
                 id,
                 rs.getString("nickName"),
                 rs.getInt("level"),
-                rs.getInt("experience")
+                rs.getInt("exp")
             );
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public void loadUserSkills(UserData userData) throws SQLException {
+        try (Connection c = db.getConnection()) {
+            PreparedStatement st = c.prepareStatement(
+                "SELECT us.skill_id AS id, s.name, s.id AS skill_id, us.level, us.data " +
+                "FROM user_skills us " +
+                "JOIN skills s ON s.id = us.skill_id " +
+                "WHERE us.user_id = ?"
+            );
+            st.setObject(1, userData.getId());
+
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                UUID id = (UUID) rs.getObject("id");
+                UUID skillId = (UUID) rs.getObject("skill_id");
+                String skillName = rs.getString("name");
+                int level = rs.getInt("level");
+                Map<String, Object> dataJson = (Map<String, Object>) rs.getObject("data");
+
+                SkillData skill = new SkillData(id, skillId, skillName, level, dataJson);
+                userData.loadSkill(skill);
+            }
         }
     }
 
@@ -80,6 +108,7 @@ public class UserDao extends DaoBase {
     }
 
     public void saveUser(UserData userData) throws SQLException {
+        System.out.println(userData.toString());
         try (Connection c = db.getConnection()) {
 
             PreparedStatement st = c.prepareStatement(
