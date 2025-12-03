@@ -6,6 +6,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.dev.nebula.core.bridge.CoreEventBridgeListener;
 import org.dev.nebula.core.commands.AdminMenuCommand;
+import org.dev.nebula.core.crafts.CraftManager;
 import org.dev.nebula.core.db.DatabaseConfig;
 import org.dev.nebula.core.db.DatabaseManager;
 import org.dev.nebula.core.db.DatabaseMigrator;
@@ -64,6 +65,7 @@ public class NebulaPlugin extends JavaPlugin {
 
         new ItemManager(bus, userService, itemsService).loadItems();
         new SkillsManager(bus, userService, skillsService).registerPassiveSkills();
+        new CraftManager(this, itemsService).registerCrafts();
 
         // test command
         getCommand("adminmenu").setExecutor(
