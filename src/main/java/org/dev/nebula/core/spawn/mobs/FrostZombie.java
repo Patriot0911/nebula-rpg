@@ -1,31 +1,13 @@
-package org.dev.nebula.core.mobs.custom;
-
-import java.util.Set;
+package org.dev.nebula.core.spawn.mobs;
 
 import org.bukkit.Material;
-import org.bukkit.block.Biome;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Zombie;
 import org.bukkit.inventory.ItemStack;
-import org.dev.nebula.core.mobs.CustomMob;
+import org.dev.nebula.core.spawn.interfaces.CustomMob;
 
 public class FrostZombie implements CustomMob {
-
-    @Override
-    public Set<Biome> getAllowedBiomes() {
-        return Set.of(
-                Biome.SNOWY_PLAINS,
-                Biome.SNOWY_TAIGA,
-                Biome.ICE_SPIKES
-        );
-    }
-
-    @Override
-    public double getSpawnChance() {
-        return 0.25;
-    }
-
     @Override
     public EntityType getEntityType() {
         return EntityType.ZOMBIE;

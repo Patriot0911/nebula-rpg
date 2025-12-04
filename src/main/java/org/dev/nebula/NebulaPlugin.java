@@ -1,7 +1,10 @@
 package org.dev.nebula;
 
 import java.io.File;
+import java.util.List;
+import java.util.Set;
 
+import org.bukkit.block.Biome;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.dev.nebula.core.bridge.CoreEventBridgeListener;
@@ -17,13 +20,17 @@ import org.dev.nebula.core.events.EventBus;
 import org.dev.nebula.core.events.NebulaEventBus;
 import org.dev.nebula.core.items.ItemManager;
 import org.dev.nebula.core.menus.MenuListener;
-import org.dev.nebula.core.mobs.CustomMobRegistry;
-import org.dev.nebula.core.mobs.CustomMobSpawnListener;
-import org.dev.nebula.core.mobs.custom.FrostZombie;
 import org.dev.nebula.core.services.ItemsService;
 import org.dev.nebula.core.services.SkillsService;
 import org.dev.nebula.core.services.UserService;
 import org.dev.nebula.core.skills.SkillsManager;
+import org.dev.nebula.core.spawn.MobPack;
+import org.dev.nebula.core.spawn.SpawnDefinition;
+import org.dev.nebula.core.spawn.SpawnManager;
+import org.dev.nebula.core.spawn.interfaces.CustomMob;
+import org.dev.nebula.core.spawn.mobs.FrostZombie;
+import org.dev.nebula.core.spawn.rules.BiomeRule;
+import org.dev.nebula.core.spawn.rules.LightRule;
 
 public class NebulaPlugin extends JavaPlugin {
     private DatabaseManager databaseManager;
@@ -44,9 +51,6 @@ public class NebulaPlugin extends JavaPlugin {
         );
         getServer().getPluginManager().registerEvents(
                 new MenuListener(), this
-        );
-        getServer().getPluginManager().registerEvents(
-                new CustomMobSpawnListener(), this
         );
 
         UserDao userDao = new UserDao(databaseManager);
@@ -96,8 +100,33 @@ public class NebulaPlugin extends JavaPlugin {
     }
 
     public void registerCustomMobs() {
-        CustomMobRegistry.register(
-            new FrostZombie()
-        );
+        // SpawnManager spawnManager = new SpawnManager();
+
+        // getServer().getPluginManager().registerEvents(
+        //         spawnManager, this
+        // );
+
+        // CustomMob frost = new FrostZombie();
+
+        // MobPack frostPack = new MobPack(
+        //     List.of(frost),
+        //     4,
+        //     6
+        // );
+
+        // SpawnDefinition def = new SpawnDefinition(
+        //     "frost_sombie_ID",
+        //     List.of(
+        //         new BiomeRule(Set.of(Biome.TAIGA, Biome.SNOWY_TAIGA))
+        //     ),
+        //     frostPack,
+        //     0.3,
+        //     25,
+        //     12,
+        //     10_000,
+        //     5_000
+        // );
+
+        // spawnManager.register(def);
     }
 }
