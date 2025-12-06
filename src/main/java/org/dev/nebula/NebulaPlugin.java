@@ -1,10 +1,7 @@
 package org.dev.nebula;
 
 import java.io.File;
-import java.util.List;
-import java.util.Set;
 
-import org.bukkit.block.Biome;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.dev.nebula.core.bridge.CoreEventBridgeListener;
@@ -19,18 +16,11 @@ import org.dev.nebula.core.db.dao.UserDao;
 import org.dev.nebula.core.events.EventBus;
 import org.dev.nebula.core.events.NebulaEventBus;
 import org.dev.nebula.core.items.ItemManager;
-import org.dev.nebula.core.menus.MenuListener;
+import org.dev.nebula.core.menus.MenuRegistry;
 import org.dev.nebula.core.services.ItemsService;
 import org.dev.nebula.core.services.SkillsService;
 import org.dev.nebula.core.services.UserService;
 import org.dev.nebula.core.skills.SkillsManager;
-import org.dev.nebula.core.spawn.MobPack;
-import org.dev.nebula.core.spawn.SpawnDefinition;
-import org.dev.nebula.core.spawn.SpawnManager;
-import org.dev.nebula.core.spawn.interfaces.CustomMob;
-import org.dev.nebula.core.spawn.mobs.FrostZombie;
-import org.dev.nebula.core.spawn.rules.BiomeRule;
-import org.dev.nebula.core.spawn.rules.LightRule;
 
 public class NebulaPlugin extends JavaPlugin {
     private DatabaseManager databaseManager;
@@ -50,7 +40,7 @@ public class NebulaPlugin extends JavaPlugin {
                 new CoreEventBridgeListener(bus), this
         );
         getServer().getPluginManager().registerEvents(
-                new MenuListener(), this
+                new MenuRegistry(), this
         );
 
         UserDao userDao = new UserDao(databaseManager);
