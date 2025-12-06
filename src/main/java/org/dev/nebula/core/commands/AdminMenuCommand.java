@@ -1,8 +1,5 @@
 package org.dev.nebula.core.commands;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -40,18 +37,12 @@ public class AdminMenuCommand implements CommandExecutor {
     }
 
     private void openMenu(int page, Player player) {
-        List<ItemStack> itemList = new ArrayList<ItemStack>();
-        for(int i = 0; i < page + 1; i++) {
-            System.out.print(i);
-            itemList.add(new ItemStack(Material.RABBIT));
-        }
+        ItemStack testItem = new ItemStack(Material.ACACIA_BOAT);
         MenuBuilder builder = MenuBuilder.create()
             .title("Перелік предметів")
             .size(6)
-            .filler(new ItemStack(Material.GRAY_STAINED_GLASS))
-            .displayArea(2, 2, 5, 5)
-            .paginated(itemList)
-            .page(page)
+            .fillItems(1, 1, 3, 3, testItem, e -> { System.out.println("tested click");})
+            .setItem(1, 1, new ItemStack(Material.ORANGE_BANNER), e -> {})
             .setItem(45, new ItemStack(Material.ORANGE_BANNER), e -> openMenu(page - 1, player))
             .setItem(53, new ItemStack(Material.GREEN_BANNER), e -> openMenu(page + 1, player))
             .setItem(49, new ItemStack(Material.RED_BANNER), e -> player.closeInventory());
