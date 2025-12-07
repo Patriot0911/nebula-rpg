@@ -8,13 +8,13 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.dev.nebula.core.db.models.UserData;
 import org.dev.nebula.core.services.SkillsService;
-import org.dev.nebula.core.services.UserService;
+import org.dev.nebula.core.services.UsersService;
 
 public class PlayerDataListener implements Listener {
-    private final UserService userService;
+    private final UsersService userService;
     private final SkillsService skillsService;
 
-    public PlayerDataListener(UserService userService, SkillsService skillsService) {
+    public PlayerDataListener(UsersService userService, SkillsService skillsService) {
         this.userService = userService;
         this.skillsService = skillsService;
     }

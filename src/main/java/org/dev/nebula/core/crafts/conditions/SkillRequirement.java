@@ -7,13 +7,13 @@ import org.bukkit.inventory.CraftingInventory;
 import org.dev.nebula.core.crafts.CraftCondition;
 import org.dev.nebula.core.db.models.SkillData;
 import org.dev.nebula.core.db.models.UserData;
-import org.dev.nebula.core.services.UserService;
+import org.dev.nebula.core.services.UsersService;
 
 public class SkillRequirement extends CraftCondition {
     private String skillName;
     private int skillLevel;
 
-    public SkillRequirement(UserService userService, String skillName, int skillLevel) {
+    public SkillRequirement(UsersService userService, String skillName, int skillLevel) {
         super(userService);
         this.skillName = skillName;
         this.skillLevel = skillLevel;

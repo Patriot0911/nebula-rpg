@@ -4,6 +4,7 @@ import java.io.File;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.dev.nebula.core.achievements.AchievementManager;
 import org.dev.nebula.core.bridge.CoreEventBridgeListener;
 import org.dev.nebula.core.commands.AdminMenuCommand;
 import org.dev.nebula.core.crafts.CraftManager;
@@ -17,17 +18,19 @@ import org.dev.nebula.core.events.EventBus;
 import org.dev.nebula.core.events.NebulaEventBus;
 import org.dev.nebula.core.items.ItemManager;
 import org.dev.nebula.core.menus.MenuRegistry;
+import org.dev.nebula.core.services.AchievementsService;
 import org.dev.nebula.core.services.ItemsService;
 import org.dev.nebula.core.services.SkillsService;
-import org.dev.nebula.core.services.UserService;
+import org.dev.nebula.core.services.UsersService;
 import org.dev.nebula.core.skills.SkillsManager;
 
 public class NebulaPlugin extends JavaPlugin {
     private DatabaseManager databaseManager;
 
-    private UserService userService;
+    private UsersService userService;
     private SkillsService skillsService;
     private ItemsService itemsService;
+    private AchievementsService achievementsService;
 
     @Override
     public void onEnable() {
@@ -44,10 +47,11 @@ public class NebulaPlugin extends JavaPlugin {
         );
 
         UserDao userDao = new UserDao(databaseManager);
-        userService = new UserService(userDao, this);
+        userService = new UsersService(userDao, this);
         SkillDao skillDao = new SkillDao(databaseManager);
         skillsService = new SkillsService(skillDao);
         itemsService = new ItemsService();
+        achievementsService = new AchievementsService();
 
         PlayerDataListener playerDataListener = new PlayerDataListener(
             userService, skillsService
@@ -60,6 +64,7 @@ public class NebulaPlugin extends JavaPlugin {
         new ItemManager(bus, userService, itemsService).loadItems();
         new SkillsManager(bus, userService, skillsService).registerPassiveSkills();
         new CraftManager(this, itemsService).registerCrafts();
+        new AchievementManager(bus, userService, achievementsService).registerAchievements();
 
         // test command
         getCommand("adminmenu").setExecutor(

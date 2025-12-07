@@ -18,7 +18,7 @@ public class ItemsService {
 
     public ItemsService() {}
 
-    public List<Class<? extends ItemBase>> getItemList() {
+    public List<Class<? extends ItemBase>> getItemsList() {
         return itemsList;
     }
     public void registerItem(String key, ItemBase item) {

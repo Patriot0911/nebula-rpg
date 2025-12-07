@@ -6,12 +6,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.CraftingInventory;
 import org.dev.nebula.core.crafts.CraftCondition;
 import org.dev.nebula.core.db.models.UserData;
-import org.dev.nebula.core.services.UserService;
+import org.dev.nebula.core.services.UsersService;
 
 public class LevelRequirement extends CraftCondition {
     private final int level;
 
-    public LevelRequirement(UserService userService, int level) {
+    public LevelRequirement(UsersService userService, int level) {
         super(userService);
         this.level = level;
     }

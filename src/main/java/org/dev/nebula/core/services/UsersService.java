@@ -10,12 +10,12 @@ import org.bukkit.plugin.Plugin;
 import org.dev.nebula.core.db.dao.UserDao;
 import org.dev.nebula.core.db.models.UserData;
 
-public class UserService {
+public class UsersService {
     private final Plugin plugin;
     private final UserDao userDao;
     private final Map<UUID, UserData> cache = new ConcurrentHashMap<>();
 
-    public UserService(UserDao userDao, Plugin plugin) {
+    public UsersService(UserDao userDao, Plugin plugin) {
         this.userDao = userDao;
         this.plugin = plugin;
     }
@@ -25,6 +25,7 @@ public class UserService {
             UserData userData = userDao.loadUser(uuid);
             if (userData != null) {
                 userDao.loadUserSkills(userData);
+                userDao.loadUserAchievemnts(userData);
             }
             return userData;
         } catch (SQLException e) {
@@ -60,6 +61,7 @@ public class UserService {
                 try {
                     userDao.saveUser(userData);
                     userDao.saveUserSkills(userData);
+                    userDao.saveUserAchievements(userData);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }

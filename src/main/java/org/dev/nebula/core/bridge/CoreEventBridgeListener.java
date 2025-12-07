@@ -7,12 +7,14 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
+import org.bukkit.event.entity.EntityPotionEffectEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.dev.nebula.core.events.EventBus;
+import org.dev.nebula.core.events.busEvents.PotionEffectEvent;
 import org.dev.nebula.core.events.busEvents.damage.DamageGiveEvent;
 import org.dev.nebula.core.events.busEvents.damage.DamagePostEvent;
 import org.dev.nebula.core.events.busEvents.damage.DamageTakeEvent;
@@ -44,6 +46,11 @@ public class CoreEventBridgeListener implements Listener {
         }
     }
 
+    @EventHandler
+    public void onEntityPotionEffect(EntityPotionEffectEvent event) {
+        PotionEffectEvent potionEffect = new PotionEffectEvent(event);
+        eventBus.publish(potionEffect);
+    }
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         PlayerInteractBusEvent interactEvent = new PlayerInteractBusEvent(event);

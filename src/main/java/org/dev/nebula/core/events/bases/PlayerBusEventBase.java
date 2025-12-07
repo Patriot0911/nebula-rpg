@@ -4,7 +4,7 @@ import org.bukkit.entity.Player;
 
 public abstract class PlayerBusEventBase<T> {
     protected final Player producer;
-    public final T event; // delete later
+    public final T event;
 
     public PlayerBusEventBase(Player producer, T event) {
         this.producer = producer;

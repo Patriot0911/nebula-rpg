@@ -8,12 +8,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.dev.nebula.core.crafts.CraftCondition;
-import org.dev.nebula.core.services.UserService;
+import org.dev.nebula.core.services.UsersService;
 
 public abstract class ItemBase {
-    protected UserService userService;
+    protected UsersService userService;
 
-    public ItemBase(UserService userService) {
+    public ItemBase(UsersService userService) {
         this.userService = userService;
     }
 

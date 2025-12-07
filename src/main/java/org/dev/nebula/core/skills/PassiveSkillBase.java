@@ -4,13 +4,13 @@ import org.dev.nebula.core.db.models.UserData;
 import org.dev.nebula.core.events.EventBus;
 import org.dev.nebula.core.events.PlayerEventListener;
 import org.dev.nebula.core.events.bases.PlayerBusEventBase;
-import org.dev.nebula.core.services.UserService;
+import org.dev.nebula.core.services.UsersService;
 
 public abstract class PassiveSkillBase {
-    protected final UserService userService;
+    protected final UsersService userService;
     private final EventBus eventBus;
 
-    public PassiveSkillBase(EventBus bus, UserService userService) {
+    public PassiveSkillBase(EventBus bus, UsersService userService) {
         this.userService = userService;
         this.eventBus = bus;
     }

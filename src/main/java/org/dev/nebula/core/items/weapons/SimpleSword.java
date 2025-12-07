@@ -17,7 +17,7 @@ import org.dev.nebula.core.events.EventBus;
 import org.dev.nebula.core.events.busEvents.items.PlayerInteractBusEvent;
 import org.dev.nebula.core.items.ItemBase;
 import org.dev.nebula.core.items.ItemManager;
-import org.dev.nebula.core.services.UserService;
+import org.dev.nebula.core.services.UsersService;
 import org.dev.nebula.core.skills.passive.LifeStealPassive;
 
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -25,7 +25,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 public class SimpleSword extends ItemBase {
     public static final String ITEM_NAME = "simple_sword";
 
-    public SimpleSword(EventBus bus, UserService userService) {
+    public SimpleSword(EventBus bus, UsersService userService) {
         super(userService);
         bus.subscribe(PlayerInteractBusEvent.class, this::onPlayerInteract);
     }

@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 import org.dev.nebula.core.db.models.UserData;
 import org.dev.nebula.core.events.EventBus;
 import org.dev.nebula.core.events.busEvents.playerDeath.PlayerKillEvent;
-import org.dev.nebula.core.services.UserService;
+import org.dev.nebula.core.services.UsersService;
 import org.dev.nebula.core.skills.PassiveSkillBase;
 import org.bukkit.Particle;
 
@@ -15,7 +15,7 @@ public class LifeStealPassive extends PassiveSkillBase {
 
     public static final String SKILL_NAME = "lifeSteal";
 
-    public LifeStealPassive(EventBus bus, UserService userService) {
+    public LifeStealPassive(EventBus bus, UsersService userService) {
         super(bus, userService);
         subscribeSkillEvent(PlayerKillEvent.class, this::onKill, SKILL_NAME);
     }

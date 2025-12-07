@@ -9,6 +9,7 @@ import java.util.UUID;
 
 import org.dev.nebula.core.db.DaoBase;
 import org.dev.nebula.core.db.DatabaseManager;
+import org.dev.nebula.core.db.models.AchievementUserData;
 import org.dev.nebula.core.db.models.SkillData;
 import org.dev.nebula.core.db.models.UserData;
 
@@ -64,7 +65,7 @@ public class UserDao extends DaoBase {
     public void loadUserAchievemnts(UserData userData) throws SQLException {
         try (Connection c = db.getConnection()) {
             PreparedStatement st = c.prepareStatement(
-                "SELECT ua.achievement_key AS key " +
+                "SELECT ua.achievement_key AS key, ua.progress_count AS count " +
                 "FROM user_achievements ua " +
                 "WHERE ua.user_id = ?"
             );
@@ -73,7 +74,12 @@ public class UserDao extends DaoBase {
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 String key = rs.getString("key");
-                userData.addAchievement(key);
+                int count = rs.getInt("count");
+                System.out.println(key);
+                System.out.println(count);
+                AchievementUserData achievementUserData = userData.addAchievement(key);
+                achievementUserData.setProgress(count);
+                achievementUserData.setNew(false);
             }
         }
     }
@@ -117,6 +123,35 @@ public class UserDao extends DaoBase {
                     update.setObject(4, skill.getSkillId());
                     update.executeUpdate();
                     skill.setModified(false);
+                }
+            }
+        }
+    }
+
+    public void saveUserAchievements(UserData userData) throws SQLException {
+        try (Connection c = db.getConnection()) {
+            for (AchievementUserData achievement : userData.getAchievements().values()) {
+                if (achievement.isNew()) {
+                    PreparedStatement insert = c.prepareStatement(
+                        "INSERT INTO user_achievements (user_id, achievement_key, progress_count) VALUES (?, ?, ?)"
+                    );
+                    insert.setObject(1, userData.getId());
+                    insert.setString(2, achievement.getKey());
+                    insert.setInt(3, achievement.getProgress());
+                    insert.executeUpdate();
+                    achievement.setNew(false);
+                    continue;
+                }
+
+                if (achievement.isModified()) {
+                    PreparedStatement update = c.prepareStatement(
+                        "UPDATE user_achievements SET progress_count = ? WHERE user_id = ? AND achievement_key = ?"
+                    );
+                    update.setInt(1, achievement.getProgress());
+                    update.setObject(2, userData.getId());
+                    update.setObject(3, achievement.getKey());
+                    update.executeUpdate();
+                    achievement.setModified(false);
                 }
             }
         }

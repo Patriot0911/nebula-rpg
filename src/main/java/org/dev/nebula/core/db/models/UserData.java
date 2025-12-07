@@ -1,21 +1,15 @@
 package org.dev.nebula.core.db.models;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.UUID;
 
 public class UserData {
-
     private final UUID id;
     private final String nickName;
     private int level;
     private int exp;
     private HashMap<String, SkillData> skills = new HashMap<String, SkillData>();
     private HashMap<String, AchievementUserData> achievements = new HashMap<String, AchievementUserData>();
-
-    private record AchievementUserData(String key, boolean isNew, boolean isDeleted) {
-    }
 
     public UserData(UUID id, String nickName, int level, int exp) {
         this.id = id;
@@ -37,19 +31,19 @@ public class UserData {
         return exp;
     }
 
-    public void addAchievement(String achievement) {
-        AchievementUserData data = new AchievementUserData(achievement, true, false);
-        this.achievements.put(achievement, data);
+    public AchievementUserData addAchievement(String achievementKey) {
+        AchievementUserData data = new AchievementUserData(achievementKey);
+        this.achievements.put(achievementKey, data);
+        return data;
     }
-    public void removeAchievement(String achievement) {
-        var data = this.achievements.get(achievement);
+    public void setAchievementState(String achievementKey, int count) {
+        AchievementUserData data = achievements.get(achievementKey);
         if (data == null) return;
-        if (data.isNew) {
-            this.achievements.remove(data.key);
-        } else {
-            data = new AchievementUserData(achievement, false, true);
-        };
-        this.achievements.put(achievement, data);
+        data.setModified(true);
+        data.setProgress(count);
+    }
+    public AchievementUserData getAchievementUserData(String achievementKey) {
+        return this.achievements.get(achievementKey);
     }
     public HashMap<String, AchievementUserData> getAchievements() {
         return this.achievements;
