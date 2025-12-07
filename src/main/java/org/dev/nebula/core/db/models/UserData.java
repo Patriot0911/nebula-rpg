@@ -1,6 +1,8 @@
 package org.dev.nebula.core.db.models;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 public class UserData {
@@ -10,6 +12,10 @@ public class UserData {
     private int level;
     private int exp;
     private HashMap<String, SkillData> skills = new HashMap<String, SkillData>();
+    private HashMap<String, AchievementUserData> achievements = new HashMap<String, AchievementUserData>();
+
+    private record AchievementUserData(String key, boolean isNew, boolean isDeleted) {
+    }
 
     public UserData(UUID id, String nickName, int level, int exp) {
         this.id = id;
@@ -29,6 +35,24 @@ public class UserData {
     }
     public int getExp() {
         return exp;
+    }
+
+    public void addAchievement(String achievement) {
+        AchievementUserData data = new AchievementUserData(achievement, true, false);
+        this.achievements.put(achievement, data);
+    }
+    public void removeAchievement(String achievement) {
+        var data = this.achievements.get(achievement);
+        if (data == null) return;
+        if (data.isNew) {
+            this.achievements.remove(data.key);
+        } else {
+            data = new AchievementUserData(achievement, false, true);
+        };
+        this.achievements.put(achievement, data);
+    }
+    public HashMap<String, AchievementUserData> getAchievements() {
+        return this.achievements;
     }
 
     // Note: For force loading skills from DB
@@ -79,11 +103,11 @@ public class UserData {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("UserData {")
-        .append("id=").append(id).append(", ")
-        .append("nickName='").append(nickName).append("', ")
-        .append("level=").append(level).append(", ")
-        .append("exp=").append(exp).append(", ")
-        .append("skills=[");
+            .append("id=").append(id).append(", ")
+            .append("nickName='").append(nickName).append("', ")
+            .append("level=").append(level).append(", ")
+            .append("exp=").append(exp).append(", ")
+            .append("skills=[");
 
         boolean first = true;
         for (SkillData skill : skills.values()) {
@@ -93,10 +117,10 @@ public class UserData {
             first = false;
 
             sb.append("{name=").append(skill.getName())
-            .append(", level=").append(skill.getLevel())
-            .append(", isNew=").append(skill.isNew())
-            .append(", isModified=").append(skill.isModified())
-            .append("}");
+                .append(", level=").append(skill.getLevel())
+                .append(", isNew=").append(skill.isNew())
+                .append(", isModified=").append(skill.isModified())
+                .append("}");
         }
 
         sb.append("]}");

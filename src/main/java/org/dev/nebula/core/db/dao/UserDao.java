@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -59,6 +57,23 @@ public class UserDao extends DaoBase {
 
                 SkillData skill = new SkillData(id, skillId, skillName, level, dataJson);
                 userData.loadSkill(skill);
+            }
+        }
+    }
+
+    public void loadUserAchievemnts(UserData userData) throws SQLException {
+        try (Connection c = db.getConnection()) {
+            PreparedStatement st = c.prepareStatement(
+                "SELECT ua.achievement_key AS key " +
+                "FROM user_achievements ua " +
+                "WHERE ua.user_id = ?"
+            );
+            st.setObject(1, userData.getId());
+
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                String key = rs.getString("key");
+                userData.addAchievement(key);
             }
         }
     }
