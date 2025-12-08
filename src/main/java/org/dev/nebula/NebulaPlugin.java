@@ -23,6 +23,7 @@ import org.dev.nebula.core.services.ItemsService;
 import org.dev.nebula.core.services.SkillsService;
 import org.dev.nebula.core.services.UsersService;
 import org.dev.nebula.core.skills.SkillsManager;
+import org.dev.nebula.core.spawn.SpawnManager;
 
 public class NebulaPlugin extends JavaPlugin {
     private DatabaseManager databaseManager;
@@ -45,6 +46,9 @@ public class NebulaPlugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(
                 new MenuRegistry(), this
         );
+        getServer().getPluginManager().registerEvents(
+                new SpawnManager(), this
+        );
 
         UserDao userDao = new UserDao(databaseManager);
         userService = new UsersService(userDao, this);
@@ -58,8 +62,6 @@ public class NebulaPlugin extends JavaPlugin {
         );
         playerDataListener.loadSkills();
         getServer().getPluginManager().registerEvents(playerDataListener, this);
-
-        registerCustomMobs();
 
         new ItemManager(bus, userService, itemsService).loadItems();
         new SkillsManager(bus, userService, skillsService).registerPassiveSkills();
@@ -92,36 +94,5 @@ public class NebulaPlugin extends JavaPlugin {
 
     public void saveDefaultConfigs() {
         saveResource("db.yml", false);
-    }
-
-    public void registerCustomMobs() {
-        // SpawnManager spawnManager = new SpawnManager();
-
-        // getServer().getPluginManager().registerEvents(
-        //         spawnManager, this
-        // );
-
-        // CustomMob frost = new FrostZombie();
-
-        // MobPack frostPack = new MobPack(
-        //     List.of(frost),
-        //     4,
-        //     6
-        // );
-
-        // SpawnDefinition def = new SpawnDefinition(
-        //     "frost_sombie_ID",
-        //     List.of(
-        //         new BiomeRule(Set.of(Biome.TAIGA, Biome.SNOWY_TAIGA))
-        //     ),
-        //     frostPack,
-        //     0.3,
-        //     25,
-        //     12,
-        //     10_000,
-        //     5_000
-        // );
-
-        // spawnManager.register(def);
     }
 }

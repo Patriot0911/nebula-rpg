@@ -13,16 +13,17 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.dev.nebula.core.spawn.interfaces.CustomMob;
+import org.dev.nebula.core.spawn.packs.FrostZombiePack;
 
 public class SpawnManager implements Listener {
-    private final List<SpawnDefinition> definitions = new ArrayList<>();
+    private final List<SpawnDefinition> definitions = new ArrayList<>(
+        List.of(
+            new FrostZombiePack().toSpawnDefinition()
+        )
+    );
 
     private final Map<String, Long> packCooldown = new HashMap<>();
     private final Map<String, Long> locationCooldown = new HashMap<>();
-
-    public void register(SpawnDefinition def) {
-        this.definitions.add(def);
-    }
 
     @EventHandler
     public void onNaturalSpawn(CreatureSpawnEvent e) {
@@ -53,6 +54,7 @@ public class SpawnManager implements Listener {
 
             setCooldown(def);
             setLocationCooldown(loc, def);
+            System.out.println("spawned: " + def.getId());
 
             return;
         }

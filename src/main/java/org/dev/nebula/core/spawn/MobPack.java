@@ -27,6 +27,19 @@ public abstract class MobPack {
         return result;
     }
 
+    public SpawnDefinition toSpawnDefinition() {
+        return new SpawnDefinition(
+            getPackId(),
+            getSpawnRules(),
+            this,
+            getSpawnChance(),
+            getSpawnRadius(),
+            getSpawnLimit(),
+            getSpawnCooldown(),
+            getSpawnLocCooldown()
+        );
+    }
+
     public abstract List<SpawnRule> getSpawnRules();
     public abstract String getPackId();
     public abstract double getSpawnChance();

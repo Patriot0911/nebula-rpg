@@ -7,15 +7,16 @@ import org.bukkit.block.Biome;
 import org.dev.nebula.core.spawn.MobPack;
 import org.dev.nebula.core.spawn.interfaces.CustomMob;
 import org.dev.nebula.core.spawn.interfaces.SpawnRule;
-import org.dev.nebula.core.spawn.mobs.FrostZombie;
+import org.dev.nebula.core.spawn.mobs.frozen.MahahaZombie;
 import org.dev.nebula.core.spawn.rules.BiomeRule;
+import org.dev.nebula.core.spawn.rules.HeightRule;
 
 public class FrostZombiePack extends MobPack {
     private static final List<CustomMob> packMobs = List.of(
-        new FrostZombie()
+        new MahahaZombie()
     );
     private static final int minCount = 2;
-    private static final int maxCount = 4;
+    private static final int maxCount = 6;
 
     public FrostZombiePack() {
         super(FrostZombiePack.packMobs, FrostZombiePack.minCount, FrostZombiePack.maxCount);
@@ -23,6 +24,7 @@ public class FrostZombiePack extends MobPack {
 
     public List<SpawnRule> getSpawnRules() {
         return List.of(
+            new HeightRule(60, 140),
             new BiomeRule(
                 Set.of(
                     Biome.TAIGA,
@@ -39,7 +41,7 @@ public class FrostZombiePack extends MobPack {
         return "frost_zombie_pack_01";
     }
     public double getSpawnChance() {
-        return 0.2;
+        return 1;
     }
     public int getSpawnRadius() {
         return 50;
@@ -48,9 +50,9 @@ public class FrostZombiePack extends MobPack {
         return 15;
     }
     public long getSpawnCooldown() {
-        return 10_000;
+        return 2_000;
     }
     public long getSpawnLocCooldown() {
-        return 5_000;
+        return 6_000;
     }
 }
