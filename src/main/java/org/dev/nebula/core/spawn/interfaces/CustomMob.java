@@ -7,4 +7,6 @@ public interface CustomMob {
     EntityType getEntityType();
 
     void modifyEntity(LivingEntity entity);
+
+    // List<> getDrop();
 }

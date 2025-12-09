@@ -6,16 +6,23 @@ import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
+import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 import org.dev.nebula.core.spawn.interfaces.CustomMob;
 import org.dev.nebula.core.spawn.packs.FrostZombiePack;
 
 public class SpawnManager implements Listener {
+    public static final NamespacedKey MOB_ID = new NamespacedKey("nebula", "mob_id");
     private final List<SpawnDefinition> definitions = new ArrayList<>(
         List.of(
             new FrostZombiePack().toSpawnDefinition()
@@ -58,6 +65,26 @@ public class SpawnManager implements Listener {
 
             return;
         }
+    }
+
+    @EventHandler
+    public void onMobDeath(EntityDeathEvent event) {
+        Entity entity = event.getEntity();
+
+        if (entity instanceof Player) return;
+
+        var persistenceDataContainer = entity.getPersistentDataContainer();
+
+        if (persistenceDataContainer == null || !persistenceDataContainer.has(MOB_ID, PersistentDataType.STRING)) return;
+
+        String mobId = persistenceDataContainer.get(MOB_ID, PersistentDataType.STRING);
+
+        event.getDrops().clear();
+
+        event.getDrops().add(new ItemStack(Material.DIAMOND, 2));
+        event.getDrops().add(new ItemStack(Material.ICE, 5));
+
+        event.setDroppedExp(50);
     }
 
     private boolean onCooldown(SpawnDefinition def) {
