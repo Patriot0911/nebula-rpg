@@ -94,6 +94,7 @@ public class NebulaPlugin extends JavaPlugin {
         } catch (Exception e) {
             getLogger().severe("Failed to connect to database: " + e.getMessage());
             getServer().getPluginManager().disablePlugin(this);
+            return;
         }
     }
 
