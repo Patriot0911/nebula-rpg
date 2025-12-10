@@ -7,7 +7,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Zombie;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.dev.nebula.core.services.MobsService;
 import org.dev.nebula.core.spawn.interfaces.CustomMob;
@@ -35,10 +34,8 @@ public class MahahaZombie extends CustomMob {
         zombie.getEquipment().setHelmet(new ItemStack(Material.ICE));
         zombie.getEquipment().setHelmetDropChance(0f);
 
-        PersistentDataContainer persistenceDataContainer = zombie.getPersistentDataContainer();
-
-        if (persistenceDataContainer != null) {
-            persistenceDataContainer.set(MobsService.MOB_ID, PersistentDataType.STRING, MOB_ID);
+        if (zombie.getPersistentDataContainer() != null) {
+            zombie.getPersistentDataContainer().set(MobsService.MOB_ID, PersistentDataType.STRING, MOB_ID);
         }
 
         AttributeInstance maxHealth = zombie.getAttribute(Attribute.MAX_HEALTH);

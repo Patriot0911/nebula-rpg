@@ -67,7 +67,7 @@ public class SpawnListener implements Listener {
 
         var persistenceDataContainer = entity.getPersistentDataContainer();
 
-        if (persistenceDataContainer == null || !persistenceDataContainer.has(MobsService.MOB_ID, PersistentDataType.STRING)) return;
+        if (!persistenceDataContainer.has(MobsService.MOB_ID, PersistentDataType.STRING)) return;
 
         String mobId = persistenceDataContainer.get(MobsService.MOB_ID, PersistentDataType.STRING);
 

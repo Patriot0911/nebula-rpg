@@ -12,6 +12,7 @@ public class SpawnManager implements Listener {
     protected MobsService mobsService;
 
     public SpawnManager(MobsService mobsService, ItemsService itemsService, UsersService userService) {
+        this.mobsService = mobsService;
         this.itemsService = itemsService;
         this.userService = userService;
     }
