@@ -28,7 +28,7 @@ public class AdminMenuCommand implements CommandExecutor {
             return true;
         }
 
-        ItemStack item = itemsService.getItems().get(SimpleSword.ITEM_NAME).createItemStack();
+        ItemStack item = itemsService.getItems().get(SimpleSword.ITEM_NAME).createItemStack(1);
 
         player.getInventory().addItem(item);
 

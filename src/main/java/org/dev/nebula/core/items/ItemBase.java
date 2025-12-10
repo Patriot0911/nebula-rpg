@@ -17,7 +17,7 @@ public abstract class ItemBase {
         this.userService = userService;
     }
 
-    public abstract ItemStack createItemStack();
+    public abstract ItemStack createItemStack(Integer count);
 
     public abstract String getItemName();
     public abstract String getItemDescription();

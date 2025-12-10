@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.bukkit.block.Biome;
-import org.dev.nebula.core.spawn.MobPack;
 import org.dev.nebula.core.spawn.interfaces.CustomMob;
+import org.dev.nebula.core.spawn.interfaces.MobPack;
 import org.dev.nebula.core.spawn.interfaces.SpawnRule;
 import org.dev.nebula.core.spawn.mobs.frozen.MahahaZombie;
 import org.dev.nebula.core.spawn.rules.BiomeRule;

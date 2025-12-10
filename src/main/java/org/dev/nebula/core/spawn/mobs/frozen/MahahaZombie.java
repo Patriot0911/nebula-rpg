@@ -7,12 +7,17 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Zombie;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
+import org.dev.nebula.core.services.MobsService;
 import org.dev.nebula.core.spawn.interfaces.CustomMob;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 
-public class MahahaZombie implements CustomMob {
+public class MahahaZombie extends CustomMob {
+    public static final String MOB_ID = "mahaha_zombie";
+
     @Override
     public EntityType getEntityType() {
         return EntityType.ZOMBIE;
@@ -29,6 +34,12 @@ public class MahahaZombie implements CustomMob {
         zombie.setCanPickupItems(true);
         zombie.getEquipment().setHelmet(new ItemStack(Material.ICE));
         zombie.getEquipment().setHelmetDropChance(0f);
+
+        PersistentDataContainer persistenceDataContainer = zombie.getPersistentDataContainer();
+
+        if (persistenceDataContainer != null) {
+            persistenceDataContainer.set(MobsService.MOB_ID, PersistentDataType.STRING, MOB_ID);
+        }
 
         AttributeInstance maxHealth = zombie.getAttribute(Attribute.MAX_HEALTH);
         AttributeInstance attack = zombie.getAttribute(Attribute.ATTACK_DAMAGE);

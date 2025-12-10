@@ -71,8 +71,8 @@ public class SimpleSword extends ItemBase {
     }
 
     @Override
-    public ItemStack createItemStack() {
-        ItemStack item = new ItemStack(Material.NETHER_BRICK);
+    public ItemStack createItemStack(Integer count) {
+        ItemStack item = new ItemStack(Material.NETHER_BRICK, count == null ? 1 : count);
         ItemMeta meta = item.getItemMeta();
 
         meta.setDisplayName(NamedTextColor.AQUA + getItemName());

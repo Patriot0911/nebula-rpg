@@ -1,4 +1,4 @@
-package org.dev.nebula.core.events.bases;
+package org.dev.nebula.core.events.buses;
 
 import org.bukkit.entity.Player;
 

@@ -1,10 +1,9 @@
-package org.dev.nebula.core.spawn;
+package org.dev.nebula.core.spawn.interfaces;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.dev.nebula.core.spawn.interfaces.CustomMob;
-import org.dev.nebula.core.spawn.interfaces.SpawnRule;
+import org.dev.nebula.core.spawn.SpawnDefinition;
 
 public abstract class MobPack {
     private final List<CustomMob> mobs;

@@ -2,6 +2,7 @@ package org.dev.nebula.core.spawn;
 
 import java.util.List;
 
+import org.dev.nebula.core.spawn.interfaces.MobPack;
 import org.dev.nebula.core.spawn.interfaces.SpawnRule;
 
 public class SpawnDefinition {

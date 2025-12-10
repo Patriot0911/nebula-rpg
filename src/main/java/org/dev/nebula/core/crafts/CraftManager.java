@@ -75,7 +75,7 @@ public class CraftManager {
             if (item.getCraftShapeLess() != null) {
                 registerShapelessCraft(
                     item.getItemKeyName(),
-                    item.createItemStack(),
+                    item.createItemStack(1),
                     item.getCraftShapeLess(),
                     item.getCraftConditions()
                 );
@@ -83,7 +83,7 @@ public class CraftManager {
             if (item.getCraftShape() != null) {
                 registerShapedCraft(
                     item.getItemKeyName(),
-                    item.createItemStack(),
+                    item.createItemStack(1),
                     item.getCraftShape(),
                     item.getCraftMapping(),
                     item.getCraftConditions()

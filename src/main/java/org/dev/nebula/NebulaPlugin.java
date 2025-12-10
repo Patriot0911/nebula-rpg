@@ -20,9 +20,11 @@ import org.dev.nebula.core.items.ItemManager;
 import org.dev.nebula.core.menus.MenuRegistry;
 import org.dev.nebula.core.services.AchievementsService;
 import org.dev.nebula.core.services.ItemsService;
+import org.dev.nebula.core.services.MobsService;
 import org.dev.nebula.core.services.SkillsService;
 import org.dev.nebula.core.services.UsersService;
 import org.dev.nebula.core.skills.SkillsManager;
+import org.dev.nebula.core.spawn.SpawnListener;
 import org.dev.nebula.core.spawn.SpawnManager;
 
 public class NebulaPlugin extends JavaPlugin {
@@ -32,6 +34,7 @@ public class NebulaPlugin extends JavaPlugin {
     private SkillsService skillsService;
     private ItemsService itemsService;
     private AchievementsService achievementsService;
+    private MobsService mobsService;
 
     @Override
     public void onEnable() {
@@ -40,6 +43,14 @@ public class NebulaPlugin extends JavaPlugin {
 
         EventBus bus = new NebulaEventBus();
 
+        UserDao userDao = new UserDao(databaseManager);
+        userService = new UsersService(userDao, this);
+        SkillDao skillDao = new SkillDao(databaseManager);
+        skillsService = new SkillsService(skillDao);
+        itemsService = new ItemsService();
+        achievementsService = new AchievementsService();
+        mobsService = new MobsService();
+
         getServer().getPluginManager().registerEvents(
                 new CoreEventBridgeListener(bus), this
         );
@@ -47,15 +58,8 @@ public class NebulaPlugin extends JavaPlugin {
                 new MenuRegistry(), this
         );
         getServer().getPluginManager().registerEvents(
-                new SpawnManager(), this
+                new SpawnListener(mobsService), this
         );
-
-        UserDao userDao = new UserDao(databaseManager);
-        userService = new UsersService(userDao, this);
-        SkillDao skillDao = new SkillDao(databaseManager);
-        skillsService = new SkillsService(skillDao);
-        itemsService = new ItemsService();
-        achievementsService = new AchievementsService();
 
         PlayerDataListener playerDataListener = new PlayerDataListener(
             userService, skillsService
@@ -64,6 +68,7 @@ public class NebulaPlugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(playerDataListener, this);
 
         new ItemManager(bus, userService, itemsService).loadItems();
+        new SpawnManager(mobsService, itemsService, userService).registerDropList(); // after items
         new SkillsManager(bus, userService, skillsService).registerPassiveSkills();
         new CraftManager(this, itemsService).registerCrafts();
         new AchievementManager(bus, userService, achievementsService).registerAchievements();

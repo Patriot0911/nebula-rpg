@@ -3,10 +3,8 @@ package org.dev.nebula.core.spawn.interfaces;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 
-public interface CustomMob {
-    EntityType getEntityType();
+public abstract class CustomMob {
+    public abstract EntityType getEntityType();
 
-    void modifyEntity(LivingEntity entity);
-
-    // List<> getDrop();
+    public abstract void modifyEntity(LivingEntity entity);
 }
