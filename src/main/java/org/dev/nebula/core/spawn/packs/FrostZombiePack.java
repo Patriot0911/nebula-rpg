@@ -41,7 +41,7 @@ public class FrostZombiePack extends MobPack {
         return "frost_zombie_pack_01";
     }
     public double getSpawnChance() {
-        return 1;
+        return 0.4;
     }
     public int getSpawnRadius() {
         return 50;
@@ -50,9 +50,9 @@ public class FrostZombiePack extends MobPack {
         return 15;
     }
     public long getSpawnCooldown() {
-        return 2_000;
+        return 20_000;
     }
     public long getSpawnLocCooldown() {
-        return 6_000;
+        return 30_000;
     }
 }

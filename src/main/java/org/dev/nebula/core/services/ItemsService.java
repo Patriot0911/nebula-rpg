@@ -6,12 +6,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.dev.nebula.core.items.ItemBase;
+import org.dev.nebula.core.items.weapons.IceSword;
 import org.dev.nebula.core.items.weapons.SimpleSword;
 
 public class ItemsService {
     private final List<Class<? extends ItemBase>> itemsList = new ArrayList<Class<? extends ItemBase>>(
         List.of(
-            SimpleSword.class
+            SimpleSword.class,
+            IceSword.class
         )
     );
     private final Map<String, ItemBase> items = new HashMap<>();

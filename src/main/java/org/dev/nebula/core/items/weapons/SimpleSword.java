@@ -20,7 +20,8 @@ import org.dev.nebula.core.items.ItemManager;
 import org.dev.nebula.core.services.UsersService;
 import org.dev.nebula.core.skills.passive.LifeStealPassive;
 
-import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextColor;
 
 public class SimpleSword extends ItemBase {
     public static final String ITEM_NAME = "simple_sword";
@@ -32,11 +33,11 @@ public class SimpleSword extends ItemBase {
 
     @Override
     public String getItemName() {
-        return "Test Name";
+        return "item.simple_sword_01.name";
     }
     @Override
     public String getItemDescription() {
-        return "Test Description";
+        return "item.simple_sword_01.description";
     }
 
     @Override
@@ -75,8 +76,17 @@ public class SimpleSword extends ItemBase {
         ItemStack item = new ItemStack(Material.NETHER_BRICK, count == null ? 1 : count);
         ItemMeta meta = item.getItemMeta();
 
-        meta.setDisplayName(NamedTextColor.AQUA + getItemName());
-        meta.setLore(List.of(getItemDescription()));
+        List<Component> loreLines = List.of(
+            Component.text(getItemDescription()+".1"),
+            Component.text(getItemDescription()+".2")
+        );
+
+        meta.displayName(
+            Component
+                .text(getItemName())
+                .color(TextColor.color(100, 100, 255))
+        );
+        meta.lore(loreLines);
 
         meta.addItemFlags(
             ItemFlag.HIDE_ATTRIBUTES,

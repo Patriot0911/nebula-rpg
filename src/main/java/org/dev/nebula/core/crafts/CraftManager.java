@@ -73,6 +73,7 @@ public class CraftManager {
             if (item.getCraftMapping() == null || (item.getCraftShape() == null && item.getCraftShapeLess() == null))
                 continue;
             if (item.getCraftShapeLess() != null) {
+                System.out.println("shapeless");
                 registerShapelessCraft(
                     item.getItemKeyName(),
                     item.createItemStack(1),
