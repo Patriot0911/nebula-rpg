@@ -20,7 +20,7 @@ public class DatabaseManager {
         config.setMaximumPoolSize(cfg.getMaxPoolSize());
         config.setConnectionTimeout(cfg.getConnectionTimeout());
         config.setMinimumIdle(2);
-        config.setDriverClassName("org.postgresql.Driver");
+        config.setDriverClassName("com.mysql.cj.jdbc.Driver");
 
         config.addDataSourceProperty("cachePrepStmts", "true");
         config.addDataSourceProperty("prepStmtCacheSize", "250");

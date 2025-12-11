@@ -25,7 +25,9 @@ public class DatabaseConfig {
     }
 
     public String toJdbcUrl() {
-        return "jdbc:postgresql://" + host + ":" + port + "/" + database;
+        return "jdbc:mysql://" + host + ":" + port + "/" + database
+                + "?allowPublicKeyRetrieval=true"
+                + "&serverTimezone=UTC";
     }
 
     public String getUsername() {

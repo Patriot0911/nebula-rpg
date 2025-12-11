@@ -23,7 +23,7 @@ public class UserDao extends DaoBase {
             PreparedStatement st = c.prepareStatement(
                 "SELECT * FROM users WHERE id = ?"
             );
-            st.setObject(1, id);
+            st.setString(1, id.toString());
 
             ResultSet rs = st.executeQuery();
             if (!rs.next()) return null;
@@ -46,12 +46,12 @@ public class UserDao extends DaoBase {
                 "JOIN skills s ON s.id = us.skill_id " +
                 "WHERE us.user_id = ?"
             );
-            st.setObject(1, userData.getId());
+            st.setString(1, userData.getId().toString());
 
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                UUID id = (UUID) rs.getObject("id");
-                UUID skillId = (UUID) rs.getObject("skill_id");
+                UUID id = UUID.fromString(rs.getString("id"));
+                UUID skillId = UUID.fromString(rs.getString("skill_id"));
                 String skillName = rs.getString("name");
                 int level = rs.getInt("level");
                 Map<String, Object> dataJson = (Map<String, Object>) rs.getObject("data");
@@ -65,11 +65,11 @@ public class UserDao extends DaoBase {
     public void loadUserAchievemnts(UserData userData) throws SQLException {
         try (Connection c = db.getConnection()) {
             PreparedStatement st = c.prepareStatement(
-                "SELECT ua.achievement_key AS key, ua.progress_count AS count " +
+                "SELECT ua.achievement_key AS `key`, ua.progress_count AS `count` " +
                 "FROM user_achievements ua " +
                 "WHERE ua.user_id = ?"
             );
-            st.setObject(1, userData.getId());
+            st.setString(1, userData.getId().toString());
 
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
@@ -89,7 +89,7 @@ public class UserDao extends DaoBase {
             PreparedStatement st = c.prepareStatement(
                 "INSERT INTO users (id, nickname) VALUES (?, ?)"
             );
-            st.setObject(1, id);
+            st.setString(1, id.toString());
             st.setString(2, nickname);
             st.executeUpdate();
         }
@@ -104,8 +104,8 @@ public class UserDao extends DaoBase {
                     PreparedStatement insert = c.prepareStatement(
                         "INSERT INTO user_skills (user_id, skill_id, level, data) VALUES (?, ?, ?, ?)"
                     );
-                    insert.setObject(1, userData.getId());
-                    insert.setObject(2, skill.getSkillId());
+                    insert.setString(1, userData.getId().toString());
+                    insert.setString(2, skill.getSkillId().toString());
                     insert.setInt(3, skill.getLevel());
                     insert.setObject(4, skill.getData());
                     insert.executeUpdate();
@@ -119,8 +119,8 @@ public class UserDao extends DaoBase {
                     );
                     update.setInt(1, skill.getLevel());
                     update.setObject(2, skill.getData());
-                    update.setObject(3, userData.getId());
-                    update.setObject(4, skill.getSkillId());
+                    update.setString(3, userData.getId().toString());
+                    update.setString(4, skill.getSkillId().toString());
                     update.executeUpdate();
                     skill.setModified(false);
                 }
@@ -135,7 +135,7 @@ public class UserDao extends DaoBase {
                     PreparedStatement insert = c.prepareStatement(
                         "INSERT INTO user_achievements (user_id, achievement_key, progress_count) VALUES (?, ?, ?)"
                     );
-                    insert.setObject(1, userData.getId());
+                    insert.setString(1, userData.getId().toString());
                     insert.setString(2, achievement.getKey());
                     insert.setInt(3, achievement.getProgress());
                     insert.executeUpdate();
@@ -148,8 +148,8 @@ public class UserDao extends DaoBase {
                         "UPDATE user_achievements SET progress_count = ? WHERE user_id = ? AND achievement_key = ?"
                     );
                     update.setInt(1, achievement.getProgress());
-                    update.setObject(2, userData.getId());
-                    update.setObject(3, achievement.getKey());
+                    update.setString(2, userData.getId().toString());
+                    update.setString(3, achievement.getKey());
                     update.executeUpdate();
                     achievement.setModified(false);
                 }
@@ -168,7 +168,7 @@ public class UserDao extends DaoBase {
             st.setString(1, userData.getNickName());
             st.setInt(2, userData.getLevel());
             st.setInt(3, userData.getExp());
-            st.setObject(4, userData.getId());
+            st.setString(4, userData.getId().toString());
 
             st.executeUpdate();
         }

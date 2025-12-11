@@ -1,8 +1,9 @@
 database:
-  host: "localhost"
-  port: 5436
-  database: "minecraft"
-  username: "postgres"
-  password: "postgres"
+  host: localhost
+  port: 3367
+  database: minecraft
+  username: mcuser
+  password: mcpass
+
   maxPoolSize: 10
   connectionTimeout: 30000

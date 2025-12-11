@@ -27,10 +27,10 @@ public class SkillDao extends DaoBase {
                 currentSkills.put(skillName, id);
             }
 
-            String insertSql = "INSERT INTO skills (id, name) VALUES (?, ?) ON CONFLICT (id) DO NOTHING";
+            String insertSql = "INSERT INTO skills (id, name) VALUES (?, ?) ON DUPLICATE KEY UPDATE id = id";
             try (PreparedStatement ps = c.prepareStatement(insertSql)) {
                 for (Map.Entry<String, UUID> entry : currentSkills.entrySet()) {
-                    ps.setObject(1, entry.getValue());
+                    ps.setString(1, entry.getValue().toString());
                     ps.setString(2, entry.getKey());
                     ps.addBatch();
                 }

@@ -17,11 +17,10 @@ repositories {
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.10-R0.1-SNAPSHOT")
 
-    // Database
-    implementation("org.postgresql:postgresql:42.7.3")
+    implementation("com.mysql:mysql-connector-j:9.1.0")
     implementation("com.zaxxer:HikariCP:5.1.0")
     implementation("org.flywaydb:flyway-core:10.10.0")
-    implementation("org.flywaydb:flyway-database-postgresql:10.10.0")
+    implementation("org.flywaydb:flyway-mysql:10.10.0")
 }
 
 java {
