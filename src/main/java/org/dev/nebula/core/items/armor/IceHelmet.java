@@ -85,10 +85,19 @@ public class IceHelmet extends ItemBase {
             0.04,
             Operation.ADD_NUMBER
         );
+        AttributeModifier armorModifier = new AttributeModifier(
+            new NamespacedKey("nebula", ITEM_NAME+"armor_mod_helmet"),
+            1,
+            Operation.ADD_NUMBER
+        );
 
         meta.addAttributeModifier(
             Attribute.MOVEMENT_SPEED,
             speedModifier
+        );
+        meta.addAttributeModifier(
+            Attribute.ARMOR_TOUGHNESS,
+            armorModifier
         );
 
         setItemTagName(meta);

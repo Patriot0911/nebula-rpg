@@ -85,10 +85,19 @@ public class IceLeggings extends ItemBase {
             0.07,
             Operation.ADD_NUMBER
         );
+        AttributeModifier armorModifier = new AttributeModifier(
+            new NamespacedKey("nebula", ITEM_NAME+"armor_mod_leggings"),
+            2,
+            Operation.ADD_NUMBER
+        );
 
         meta.addAttributeModifier(
             Attribute.MOVEMENT_SPEED,
             speedModifier
+        );
+        meta.addAttributeModifier(
+            Attribute.ARMOR_TOUGHNESS,
+            armorModifier
         );
 
         setItemTagName(meta);
