@@ -12,5 +12,4 @@ public abstract class CraftCondition {
     }
 
     public abstract boolean canCraft(Player player, CraftingInventory inv);
-    public abstract String getErrorMessage();
 }

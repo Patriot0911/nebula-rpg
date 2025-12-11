@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -16,7 +15,7 @@ import org.dev.nebula.core.db.models.SkillData;
 import org.dev.nebula.core.events.EventBus;
 import org.dev.nebula.core.events.busEvents.items.PlayerInteractBusEvent;
 import org.dev.nebula.core.items.ItemBase;
-import org.dev.nebula.core.items.ItemManager;
+import org.dev.nebula.core.services.ItemsService;
 import org.dev.nebula.core.services.UsersService;
 import org.dev.nebula.core.skills.passive.LifeStealPassive;
 
@@ -26,8 +25,8 @@ import net.kyori.adventure.text.format.TextColor;
 public class SimpleSword extends ItemBase {
     public static final String ITEM_NAME = "simple_sword";
 
-    public SimpleSword(EventBus bus, UsersService userService) {
-        super(userService);
+    public SimpleSword(EventBus bus, UsersService userService, ItemsService itemsService) {
+        super(userService, itemsService);
         bus.subscribe(PlayerInteractBusEvent.class, this::onPlayerInteract);
     }
 
@@ -40,10 +39,6 @@ public class SimpleSword extends ItemBase {
         return "item.simple_sword_01.description";
     }
 
-    @Override
-    public NamespacedKey getItemTag() {
-        return new NamespacedKey(ItemManager.WeaponNameSpace, SimpleSword.ITEM_NAME);
-    }
     @Override
     public String getItemKeyName() {
         return SimpleSword.ITEM_NAME;

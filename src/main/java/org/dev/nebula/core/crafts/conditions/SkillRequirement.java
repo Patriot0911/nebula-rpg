@@ -27,9 +27,4 @@ public class SkillRequirement extends CraftCondition {
         SkillData skillData = userData.getSkill(skillName);
         return skillData != null && skillData.getLevel() >= skillLevel;
     }
-
-    @Override
-    public String getErrorMessage() {
-        return String.format("Required skill {0} with {1} lvl", skillName, skillLevel);
-    }
 }

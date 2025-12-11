@@ -12,6 +12,7 @@ import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerItemBreakEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.dev.nebula.core.events.EventBus;
 import org.dev.nebula.core.events.busEvents.PotionEffectEvent;
@@ -21,6 +22,7 @@ import org.dev.nebula.core.events.busEvents.damage.DamageTakeEvent;
 import org.dev.nebula.core.events.busEvents.items.CraftItemEventBusEvent;
 import org.dev.nebula.core.events.busEvents.items.EntityPickupItemBusEvent;
 import org.dev.nebula.core.events.busEvents.items.InventoryClickBusEvent;
+import org.dev.nebula.core.events.busEvents.items.ItemBreakBusEvent;
 import org.dev.nebula.core.events.busEvents.items.PlayerDropItemBusEvent;
 import org.dev.nebula.core.events.busEvents.items.PlayerInteractBusEvent;
 import org.dev.nebula.core.events.busEvents.items.PlayerItemConsumeBusEvent;
@@ -80,6 +82,11 @@ public class CoreEventBridgeListener implements Listener {
     public void onCraftItem(CraftItemEvent event) {
         CraftItemEventBusEvent consumeBusEvent = new CraftItemEventBusEvent(event);
         eventBus.publish(consumeBusEvent);
+    }
+    @EventHandler
+    public void onBreak(PlayerItemBreakEvent event) {
+        ItemBreakBusEvent breakBusEvent = new ItemBreakBusEvent(event);
+        eventBus.publish(breakBusEvent);
     }
 
     @EventHandler

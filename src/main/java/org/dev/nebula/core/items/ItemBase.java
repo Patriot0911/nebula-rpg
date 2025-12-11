@@ -8,13 +8,17 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.dev.nebula.core.crafts.CraftCondition;
+import org.dev.nebula.core.services.ItemsService;
 import org.dev.nebula.core.services.UsersService;
 
 public abstract class ItemBase {
     protected UsersService userService;
+    protected ItemsService itemsService;
+    public static final NamespacedKey ITEM_ID_KEY_NAMESPACED_KEY =  new NamespacedKey("nebula", "item_id");
 
-    public ItemBase(UsersService userService) {
+    public ItemBase(UsersService userService, ItemsService itemsService) {
         this.userService = userService;
+        this.itemsService = itemsService;
     }
 
     public abstract ItemStack createItemStack(Integer count);
@@ -23,21 +27,21 @@ public abstract class ItemBase {
     public abstract String getItemDescription();
 
     public abstract String getItemKeyName();
-    public abstract NamespacedKey getItemTag();
 
     protected void setItemTagName(ItemMeta itemMeta) {
         itemMeta.getPersistentDataContainer().set(
-            getItemTag(),
-            PersistentDataType.BYTE,
-            (byte) 1
+            ITEM_ID_KEY_NAMESPACED_KEY,
+            PersistentDataType.STRING,
+            getItemKeyName()
         );
     }
 
     protected boolean isSameItem(ItemMeta itemMeta) {
-        return itemMeta.getPersistentDataContainer().has(
-            getItemTag(),
-            PersistentDataType.BYTE
+        String key = itemMeta.getPersistentDataContainer().get(
+            ITEM_ID_KEY_NAMESPACED_KEY,
+            PersistentDataType.STRING
         );
+        return key == getItemKeyName();
     }
 
     public String[] getCraftShape() {
@@ -50,6 +54,6 @@ public abstract class ItemBase {
         return null;
     }
     public CraftCondition[] getCraftConditions() {
-        return null;
+        return new CraftCondition[] {};
     }
 }

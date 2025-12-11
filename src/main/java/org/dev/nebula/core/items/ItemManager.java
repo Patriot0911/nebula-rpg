@@ -22,8 +22,8 @@ public class ItemManager {
         for (Class<? extends ItemBase> itemClass : itemsService.getItemsList()) {
             try {
                 ItemBase item = itemClass
-                    .getDeclaredConstructor(EventBus.class, UsersService.class)
-                    .newInstance(eventBus, userService);
+                    .getDeclaredConstructor(EventBus.class, UsersService.class, ItemsService.class)
+                    .newInstance(eventBus, userService, itemsService);
                 itemsService.registerItem(item.getItemKeyName(), item);
             } catch (Exception e) {
                 e.printStackTrace();

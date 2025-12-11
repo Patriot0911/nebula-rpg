@@ -32,7 +32,6 @@ public class CraftListener implements Listener {
 
         for (CraftCondition cond : entry.conditions) {
             if (!cond.canCraft(player, event.getInventory())) {
-                player.sendMessage("§c" + cond.getErrorMessage());
                 event.setCancelled(true);
                 return;
             }

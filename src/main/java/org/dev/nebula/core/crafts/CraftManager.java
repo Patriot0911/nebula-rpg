@@ -58,7 +58,7 @@ public class CraftManager {
 
         CraftEntry entry = new CraftEntry();
         entry.key = key;
-        entry.conditions.addAll(Arrays.asList(conditions));
+        entry.conditions.addAll(Arrays.asList());
 
         recipes.put(id, entry);
     }
@@ -73,7 +73,6 @@ public class CraftManager {
             if (item.getCraftMapping() == null || (item.getCraftShape() == null && item.getCraftShapeLess() == null))
                 continue;
             if (item.getCraftShapeLess() != null) {
-                System.out.println("shapeless");
                 registerShapelessCraft(
                     item.getItemKeyName(),
                     item.createItemStack(1),
@@ -82,6 +81,7 @@ public class CraftManager {
                 );
             }
             if (item.getCraftShape() != null) {
+                System.out.println("shape craft");
                 registerShapedCraft(
                     item.getItemKeyName(),
                     item.createItemStack(1),

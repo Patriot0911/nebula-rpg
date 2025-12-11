@@ -1,8 +1,6 @@
 package org.dev.nebula.core.items.weapons;
 
-import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -13,8 +11,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.dev.nebula.core.events.EventBus;
 import org.dev.nebula.core.events.busEvents.damage.DamageGiveEvent;
+import org.dev.nebula.core.events.busEvents.items.ItemBreakBusEvent;
 import org.dev.nebula.core.items.ItemBase;
-import org.dev.nebula.core.items.ItemManager;
+import org.dev.nebula.core.items.shards.IceShard;
+import org.dev.nebula.core.services.ItemsService;
 import org.dev.nebula.core.services.UsersService;
 
 import net.kyori.adventure.text.Component;
@@ -23,8 +23,9 @@ import net.kyori.adventure.text.format.TextColor;
 public class IceSword extends ItemBase {
     public static final String ITEM_NAME = "ice_sword";
 
-    public IceSword(EventBus bus, UsersService userService) {
-        super(userService);
+    public IceSword(EventBus bus, UsersService userService, ItemsService itemsService) {
+        super(userService, itemsService);
+        bus.subscribe(ItemBreakBusEvent.class, this::onBreak);
         bus.subscribe(DamageGiveEvent.class, this::onPlayerAttack);
     }
 
@@ -37,10 +38,6 @@ public class IceSword extends ItemBase {
         return null;
     }
 
-    @Override
-    public NamespacedKey getItemTag() {
-        return new NamespacedKey(ItemManager.WeaponNameSpace, IceSword.ITEM_NAME);
-    }
     @Override
     public String getItemKeyName() {
         return IceSword.ITEM_NAME;
@@ -73,19 +70,14 @@ public class IceSword extends ItemBase {
                 .color(TextColor.color(150, 150, 255))
         );
 
-        // meta.addItemFlags(
-        //     ItemFlag.HIDE_ATTRIBUTES
-        //     ItemFlag.HIDE_ENCHANTS
-        // );
-
         AttributeModifier damageModifier = new AttributeModifier(
             new NamespacedKey("nebula", ITEM_NAME+"damage_mod"),
-            2.0,
+            5.0,
             Operation.ADD_NUMBER
         );
         AttributeModifier attackSpeedModifier = new AttributeModifier(
             new NamespacedKey("nebula", ITEM_NAME+"attack_speed_mod"),
-            3.0,
+            3.2,
             Operation.ADD_NUMBER
         );
 
@@ -97,7 +89,6 @@ public class IceSword extends ItemBase {
             Attribute.ATTACK_SPEED,
             attackSpeedModifier
         );
-        // meta.setUseRemainder(item); shard
 
         setItemTagName(meta);
 
@@ -119,5 +110,17 @@ public class IceSword extends ItemBase {
         int newFreeze = Math.min(current + added, max);
 
         e.target.setFreezeTicks(newFreeze);
+    }
+    public void onBreak(ItemBreakBusEvent e) {
+        ItemStack itemStack = e.event.getBrokenItem();
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        if (itemMeta == null) return;
+        if (!isSameItem(itemMeta)) return;
+
+        e.event.getPlayer().getInventory().addItem(
+            itemsService.getItems().get(IceShard.ITEM_NAME).createItemStack(
+                1 + (int) (Math.random() * 2)
+            )
+        );
     }
 }
