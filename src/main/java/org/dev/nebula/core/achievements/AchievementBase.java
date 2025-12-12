@@ -23,7 +23,7 @@ public abstract class AchievementBase {
         AchievementUserData achievementUserData = userData.getAchievementUserData(getKey());
         if (achievementUserData == null) {
             achievementUserData = userData.addAchievement(getKey());
-            achievementUserData.setNew(false);
+            achievementUserData.setNew(true);
             achievementUserData.addProgress(count, getGoal());
             return;
         }

@@ -65,16 +65,15 @@ public class UserDao extends DaoBase {
     public void loadUserAchievemnts(UserData userData) throws SQLException {
         try (Connection c = db.getConnection()) {
             PreparedStatement st = c.prepareStatement(
-                "SELECT ua.achievement_key AS `key`, ua.progress_count AS `count` " +
+                "SELECT ua.achievement_key, ua.progress_count " +
                 "FROM user_achievements ua " +
                 "WHERE ua.user_id = ?"
             );
             st.setString(1, userData.getId().toString());
-
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                String key = rs.getString("key");
-                int count = rs.getInt("count");
+                String key = rs.getString("achievement_key");
+                int count = rs.getInt("progress_count");
                 System.out.println(key);
                 System.out.println(count);
                 AchievementUserData achievementUserData = userData.addAchievement(key);
@@ -131,10 +130,12 @@ public class UserDao extends DaoBase {
     public void saveUserAchievements(UserData userData) throws SQLException {
         try (Connection c = db.getConnection()) {
             for (AchievementUserData achievement : userData.getAchievements().values()) {
+                System.out.println(achievement.getKey());
                 if (achievement.isNew()) {
                     PreparedStatement insert = c.prepareStatement(
                         "INSERT INTO user_achievements (user_id, achievement_key, progress_count) VALUES (?, ?, ?)"
                     );
+                    System.out.println(insert);
                     insert.setString(1, userData.getId().toString());
                     insert.setString(2, achievement.getKey());
                     insert.setInt(3, achievement.getProgress());
