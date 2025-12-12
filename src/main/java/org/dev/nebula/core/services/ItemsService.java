@@ -10,6 +10,7 @@ import org.dev.nebula.core.items.armor.IceBoots;
 import org.dev.nebula.core.items.armor.IceChestplate;
 import org.dev.nebula.core.items.armor.IceHelmet;
 import org.dev.nebula.core.items.armor.IceLeggings;
+import org.dev.nebula.core.items.etc.AchievementsBook;
 import org.dev.nebula.core.items.shards.IceShard;
 import org.dev.nebula.core.items.weapons.IceSword;
 import org.dev.nebula.core.items.weapons.SimpleSword;
@@ -23,7 +24,8 @@ public class ItemsService {
             IceBoots.class,
             IceLeggings.class,
             IceChestplate.class,
-            IceHelmet.class
+            IceHelmet.class,
+            AchievementsBook.class
         )
     );
     public static final Map<String, ItemBase> items = new HashMap<>();

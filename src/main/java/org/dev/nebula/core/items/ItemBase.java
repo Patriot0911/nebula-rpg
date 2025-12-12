@@ -13,7 +13,7 @@ import org.dev.nebula.core.events.EventBus;
 public abstract class ItemBase {
     public ItemBase(EventBus bus) {}
 
-    public static final NamespacedKey ITEM_ID_KEY_NAMESPACED_KEY =  new NamespacedKey("nebula", "item_id");
+    public static final NamespacedKey ITEM_ID_KEY_NAMESPACED_KEY = new NamespacedKey("nebula", "item_id");
 
     public abstract ItemStack createItemStack(Integer count);
 
@@ -35,7 +35,7 @@ public abstract class ItemBase {
             ITEM_ID_KEY_NAMESPACED_KEY,
             PersistentDataType.STRING
         );
-        return key == getItemKeyName();
+        return getItemKeyName().equals(key);
     }
 
     public String[] getCraftShape() {

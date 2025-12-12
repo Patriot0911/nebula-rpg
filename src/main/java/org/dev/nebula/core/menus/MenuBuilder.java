@@ -115,12 +115,22 @@ public class MenuBuilder {
     }
 
     public void handleClick(InventoryClickEvent e) {
-        if (blockedSlots.contains(e.getSlot())) {
-            e.setCancelled(true);
-            System.out.println("TESTED BLOCK");
+        int raw = e.getRawSlot();
+        Inventory inv = e.getInventory();
+
+        System.out.println(raw);
+        System.out.println(e.getSlot());
+
+        if (raw < inv.getSize()) {
+            if (blockedSlots.contains(raw)) {
+                e.setCancelled(true);
+            }
+            Consumer<InventoryClickEvent> handler = handlers.get(raw);
+            if (handler != null) {
+                handler.accept(e);
+            }
+            return;
         }
-        Consumer<InventoryClickEvent> handler = handlers.get(e.getSlot());
-        if (handler != null) handler.accept(e);
     }
 
     public MenuBuilder blockSlot(int slot) {
