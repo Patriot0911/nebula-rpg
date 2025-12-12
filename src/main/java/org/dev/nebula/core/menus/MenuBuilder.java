@@ -12,6 +12,8 @@ import java.util.function.Consumer;
 public class MenuBuilder {
     private final Set<Integer> blockedSlots = new HashSet<>();
 
+    private Inventory inventory;
+
     private String title = "";
     private int size = 9;
     private final Map<Integer, MenuItem> items = new HashMap<>();
@@ -32,6 +34,10 @@ public class MenuBuilder {
     public MenuBuilder size(int rows) {
         this.size = rows * 9;
         return this;
+    }
+
+    public Inventory getInventory() {
+        return inventory;
     }
 
     public MenuBuilder setItem(int slot, ItemStack item, Consumer<InventoryClickEvent> click) {
@@ -100,18 +106,16 @@ public class MenuBuilder {
 
     @SuppressWarnings("deprecation")
     public Inventory build(Player player) {
-        Inventory inv = Bukkit.createInventory(null, size, title);
+        inventory = Bukkit.createInventory(new MenuHolder(this), size, title);
 
         for (Map.Entry<Integer, MenuItem> e : items.entrySet()) {
-            inv.setItem(e.getKey(), e.getValue().item());
+            inventory.setItem(e.getKey(), e.getValue().item());
             if (e.getValue().handler() != null) {
                 handlers.put(e.getKey(), e.getValue().handler());
             }
         }
 
-        MenuRegistry.register(player, this);
-
-        return inv;
+        return inventory;
     }
 
     public void handleClick(InventoryClickEvent e) {

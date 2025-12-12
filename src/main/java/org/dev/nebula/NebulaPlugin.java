@@ -17,7 +17,7 @@ import org.dev.nebula.core.db.dao.UserDao;
 import org.dev.nebula.core.events.EventBus;
 import org.dev.nebula.core.events.NebulaEventBus;
 import org.dev.nebula.core.items.ItemManager;
-import org.dev.nebula.core.menus.MenuRegistry;
+import org.dev.nebula.core.menus.MenuListener;
 import org.dev.nebula.core.services.AchievementsService;
 import org.dev.nebula.core.services.ItemsService;
 import org.dev.nebula.core.services.MobsService;
@@ -55,7 +55,7 @@ public class NebulaPlugin extends JavaPlugin {
                 new CoreEventBridgeListener(bus), this
         );
         getServer().getPluginManager().registerEvents(
-                new MenuRegistry(), this
+                new MenuListener(), this
         );
         getServer().getPluginManager().registerEvents(
                 new SpawnListener(mobsService), this
