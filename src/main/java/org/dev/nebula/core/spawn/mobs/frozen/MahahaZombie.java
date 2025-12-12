@@ -32,7 +32,6 @@ public class MahahaZombie extends CustomMob {
         zombie.setAdult();
         zombie.setCanPickupItems(true);
         zombie.getEquipment().setHelmet(new ItemStack(Material.ICE));
-        zombie.getEquipment().setHelmetDropChance(0f);
 
         if (zombie.getPersistentDataContainer() != null) {
             zombie.getPersistentDataContainer().set(MobsService.MOB_ID, PersistentDataType.STRING, MOB_ID);

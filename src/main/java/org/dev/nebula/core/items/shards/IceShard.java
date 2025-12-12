@@ -5,8 +5,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.dev.nebula.core.events.EventBus;
 import org.dev.nebula.core.items.ItemBase;
-import org.dev.nebula.core.services.ItemsService;
-import org.dev.nebula.core.services.UsersService;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
@@ -14,8 +12,8 @@ import net.kyori.adventure.text.format.TextColor;
 public class IceShard extends ItemBase {
     public static final String ITEM_NAME = "ice_shard";
 
-    public IceShard(EventBus bus, UsersService userService, ItemsService itemsService) {
-        super(userService, itemsService);
+    public IceShard(EventBus bus) {
+        super(bus);
     }
 
     @Override

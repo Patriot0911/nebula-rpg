@@ -67,15 +67,16 @@ public class NebulaPlugin extends JavaPlugin {
         playerDataListener.loadSkills();
         getServer().getPluginManager().registerEvents(playerDataListener, this);
 
-        new ItemManager(bus, userService, itemsService).loadItems();
-        new SpawnManager(mobsService, itemsService, userService).registerDropList(); // after items
-        new SkillsManager(bus, userService, skillsService).registerPassiveSkills();
-        new CraftManager(this, itemsService).registerCrafts();
-        new AchievementManager(bus, userService, achievementsService).registerAchievements();
+        new ItemManager(bus, itemsService).loadItems();
+
+        new SpawnManager(mobsService).registerDropList();
+        new SkillsManager(bus, skillsService).registerPassiveSkills();
+        new CraftManager(this).registerCrafts();
+        new AchievementManager(bus, achievementsService).registerAchievements();
 
         // test command
         getCommand("adminmenu").setExecutor(
-            new AdminMenuCommand(itemsService)
+            new AdminMenuCommand()
         );
     }
 

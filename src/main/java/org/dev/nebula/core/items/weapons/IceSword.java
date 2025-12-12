@@ -15,7 +15,6 @@ import org.dev.nebula.core.events.busEvents.items.ItemBreakBusEvent;
 import org.dev.nebula.core.items.ItemBase;
 import org.dev.nebula.core.items.shards.IceShard;
 import org.dev.nebula.core.services.ItemsService;
-import org.dev.nebula.core.services.UsersService;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
@@ -23,8 +22,8 @@ import net.kyori.adventure.text.format.TextColor;
 public class IceSword extends ItemBase {
     public static final String ITEM_NAME = "ice_sword";
 
-    public IceSword(EventBus bus, UsersService userService, ItemsService itemsService) {
-        super(userService, itemsService);
+    public IceSword(EventBus bus) {
+        super(bus);
         bus.subscribe(ItemBreakBusEvent.class, this::onBreak);
         bus.subscribe(DamageGiveEvent.class, this::onPlayerAttack);
     }
@@ -72,12 +71,12 @@ public class IceSword extends ItemBase {
 
         AttributeModifier damageModifier = new AttributeModifier(
             new NamespacedKey("nebula", ITEM_NAME+"damage_mod"),
-            5.0,
+            3.0,
             Operation.ADD_NUMBER
         );
         AttributeModifier attackSpeedModifier = new AttributeModifier(
             new NamespacedKey("nebula", ITEM_NAME+"attack_speed_mod"),
-            3.2,
+            2.8,
             Operation.ADD_NUMBER
         );
 
@@ -118,7 +117,7 @@ public class IceSword extends ItemBase {
         if (!isSameItem(itemMeta)) return;
 
         e.event.getPlayer().getInventory().addItem(
-            itemsService.getItems().get(IceShard.ITEM_NAME).createItemStack(
+            ItemsService.items.get(IceShard.ITEM_NAME).createItemStack(
                 1 + (int) (Math.random() * 2)
             )
         );

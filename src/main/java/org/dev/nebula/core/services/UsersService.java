@@ -13,7 +13,7 @@ import org.dev.nebula.core.db.models.UserData;
 public class UsersService {
     private final Plugin plugin;
     private final UserDao userDao;
-    private final Map<UUID, UserData> cache = new ConcurrentHashMap<>();
+    private static final Map<UUID, UserData> cache = new ConcurrentHashMap<>();
 
     public UsersService(UserDao userDao, Plugin plugin) {
         this.userDao = userDao;
@@ -70,7 +70,7 @@ public class UsersService {
         cache.remove(userData.getId());
     }
 
-    public UserData getUserData(UUID uuid) {
+    public static UserData getUserData(UUID uuid) {
         return cache.get(uuid);
     }
 }

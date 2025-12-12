@@ -17,12 +17,10 @@ import org.dev.nebula.core.services.ItemsService;
 
 public class CraftManager {
     private final NebulaPlugin plugin;
-    private final ItemsService itemsService;
     private final Map<String, CraftEntry> recipes = new HashMap<>();
 
-    public CraftManager(NebulaPlugin plugin, ItemsService itemsService) {
+    public CraftManager(NebulaPlugin plugin) {
         this.plugin = plugin;
-        this.itemsService = itemsService;
         Bukkit.getPluginManager().registerEvents(
             new CraftListener(this), plugin
         );
@@ -68,7 +66,7 @@ public class CraftManager {
     }
 
     public void registerCrafts() {
-        for (Entry<String, ItemBase> e : itemsService.getItems().entrySet()) {
+        for (Entry<String, ItemBase> e : ItemsService.items.entrySet()) {
             ItemBase item = e.getValue();
             if (item.getCraftMapping() == null || (item.getCraftShape() == null && item.getCraftShapeLess() == null))
                 continue;

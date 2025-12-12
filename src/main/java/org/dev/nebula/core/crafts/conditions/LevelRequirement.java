@@ -11,15 +11,14 @@ import org.dev.nebula.core.services.UsersService;
 public class LevelRequirement extends CraftCondition {
     private final int level;
 
-    public LevelRequirement(UsersService userService, int level) {
-        super(userService);
+    public LevelRequirement(int level) {
         this.level = level;
     }
 
     @Override
     public boolean canCraft(Player player, CraftingInventory inv) {
         UUID plaUuid = player.getUniqueId();
-        UserData userData = userService.getUserData(plaUuid);
+        UserData userData = UsersService.getUserData(plaUuid);
         if (userData == null) return false;
         return userData.getLevel() >= level;
     }

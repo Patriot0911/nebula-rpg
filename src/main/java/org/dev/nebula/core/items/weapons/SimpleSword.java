@@ -15,7 +15,6 @@ import org.dev.nebula.core.db.models.SkillData;
 import org.dev.nebula.core.events.EventBus;
 import org.dev.nebula.core.events.busEvents.items.PlayerInteractBusEvent;
 import org.dev.nebula.core.items.ItemBase;
-import org.dev.nebula.core.services.ItemsService;
 import org.dev.nebula.core.services.UsersService;
 import org.dev.nebula.core.skills.passive.LifeStealPassive;
 
@@ -25,8 +24,8 @@ import net.kyori.adventure.text.format.TextColor;
 public class SimpleSword extends ItemBase {
     public static final String ITEM_NAME = "simple_sword";
 
-    public SimpleSword(EventBus bus, UsersService userService, ItemsService itemsService) {
-        super(userService, itemsService);
+    public SimpleSword(EventBus bus) {
+        super(bus);
         bus.subscribe(PlayerInteractBusEvent.class, this::onPlayerInteract);
     }
 
@@ -62,7 +61,7 @@ public class SimpleSword extends ItemBase {
     @Override
     public CraftCondition[] getCraftConditions() {
         return new CraftCondition[] {
-            new SkillRequirement(userService, LifeStealPassive.SKILL_NAME, 0)
+            new SkillRequirement(LifeStealPassive.SKILL_NAME, 0)
         };
     }
 
@@ -106,7 +105,7 @@ public class SimpleSword extends ItemBase {
         player.getInventory().setItem(itemSlot, null);
 
         UUID skillUuid = UUID.nameUUIDFromBytes(LifeStealPassive.SKILL_NAME.getBytes());
-        userService.getUserData(player.getUniqueId()).addSkill(
+        UsersService.getUserData(player.getUniqueId()).addSkill(
             new SkillData(UUID.randomUUID(), skillUuid, LifeStealPassive.SKILL_NAME, 1, null)
         );
         System.out.println(SimpleSword.ITEM_NAME);

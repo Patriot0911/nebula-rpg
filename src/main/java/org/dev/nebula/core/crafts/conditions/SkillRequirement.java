@@ -13,8 +13,7 @@ public class SkillRequirement extends CraftCondition {
     private String skillName;
     private int skillLevel;
 
-    public SkillRequirement(UsersService userService, String skillName, int skillLevel) {
-        super(userService);
+    public SkillRequirement(String skillName, int skillLevel) {
         this.skillName = skillName;
         this.skillLevel = skillLevel;
     }
@@ -22,7 +21,7 @@ public class SkillRequirement extends CraftCondition {
     @Override
     public boolean canCraft(Player player, CraftingInventory inv) {
         UUID plaUuid = player.getUniqueId();
-        UserData userData = userService.getUserData(plaUuid);
+        UserData userData = UsersService.getUserData(plaUuid);
         if (userData == null) return false;
         SkillData skillData = userData.getSkill(skillName);
         return skillData != null && skillData.getLevel() >= skillLevel;

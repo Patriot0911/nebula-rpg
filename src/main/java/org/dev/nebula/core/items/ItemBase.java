@@ -8,18 +8,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.dev.nebula.core.crafts.CraftCondition;
-import org.dev.nebula.core.services.ItemsService;
-import org.dev.nebula.core.services.UsersService;
+import org.dev.nebula.core.events.EventBus;
 
 public abstract class ItemBase {
-    protected UsersService userService;
-    protected ItemsService itemsService;
-    public static final NamespacedKey ITEM_ID_KEY_NAMESPACED_KEY =  new NamespacedKey("nebula", "item_id");
+    public ItemBase(EventBus bus) {}
 
-    public ItemBase(UsersService userService, ItemsService itemsService) {
-        this.userService = userService;
-        this.itemsService = itemsService;
-    }
+    public static final NamespacedKey ITEM_ID_KEY_NAMESPACED_KEY =  new NamespacedKey("nebula", "item_id");
 
     public abstract ItemStack createItemStack(Integer count);
 

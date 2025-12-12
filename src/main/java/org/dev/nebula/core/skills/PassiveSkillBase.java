@@ -7,11 +7,9 @@ import org.dev.nebula.core.events.buses.PlayerBusEventBase;
 import org.dev.nebula.core.services.UsersService;
 
 public abstract class PassiveSkillBase {
-    protected final UsersService userService;
     private final EventBus eventBus;
 
-    public PassiveSkillBase(EventBus bus, UsersService userService) {
-        this.userService = userService;
+    public PassiveSkillBase(EventBus bus) {
         this.eventBus = bus;
     }
 
@@ -19,7 +17,7 @@ public abstract class PassiveSkillBase {
     public <T extends PlayerBusEventBase> void subscribeSkillEvent(Class<T> eventClass, PlayerEventListener<T> listener, String skillName) {
         eventBus.subscribe(eventClass,
             event -> {
-                UserData userData = userService.getUserData(event.getProducer().getUniqueId());
+                UserData userData = UsersService.getUserData(event.getProducer().getUniqueId());
                 if(userData == null || !userData.hasSkill(skillName)) return;
                 listener.handle(event, userData);
             }

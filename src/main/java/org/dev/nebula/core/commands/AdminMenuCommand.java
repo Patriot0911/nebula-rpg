@@ -11,10 +11,8 @@ import org.dev.nebula.core.menus.MenuBuilder;
 import org.dev.nebula.core.services.ItemsService;
 
 public class AdminMenuCommand implements CommandExecutor {
-    private ItemsService itemsService;
 
-    public AdminMenuCommand(ItemsService itemsService) {
-        this.itemsService = itemsService;
+    public AdminMenuCommand() {
     };
 
     @Override
@@ -28,7 +26,7 @@ public class AdminMenuCommand implements CommandExecutor {
             return true;
         }
 
-        ItemStack item = itemsService.getItems().get(SimpleSword.ITEM_NAME).createItemStack(1);
+        ItemStack item = ItemsService.items.get(SimpleSword.ITEM_NAME).createItemStack(1);
 
         player.getInventory().addItem(item);
 

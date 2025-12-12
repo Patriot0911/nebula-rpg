@@ -26,7 +26,7 @@ public class ItemsService {
             IceHelmet.class
         )
     );
-    private final Map<String, ItemBase> items = new HashMap<>();
+    public static final Map<String, ItemBase> items = new HashMap<>();
 
     public ItemsService() {}
 

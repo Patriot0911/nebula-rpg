@@ -10,15 +10,13 @@ import org.bukkit.persistence.PersistentDataType;
 
 import org.dev.nebula.core.crafts.CraftCondition;
 import org.dev.nebula.core.items.ItemBase;
-import org.dev.nebula.core.services.UsersService;
 
 public class SameNebulaItem extends CraftCondition {
 
     private final Map<Character, ItemStack> mapping;
     private final String[] shape;
 
-    public SameNebulaItem(UsersService userService, String[] shape, Map<Character, ItemStack> mapping) {
-        super(userService);
+    public SameNebulaItem(String[] shape, Map<Character, ItemStack> mapping) {
         this.shape = shape;
         this.mapping = mapping;
     }

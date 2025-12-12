@@ -39,7 +39,7 @@ public class PlayerDataListener implements Listener {
     public void onQuit(PlayerQuitEvent event) {
         UUID uuid = event.getPlayer().getUniqueId();
 
-        UserData userData = userService.getUserData(uuid);
+        UserData userData = UsersService.getUserData(uuid);
         if (userData == null) return;
 
         userService.saveUser(userData);

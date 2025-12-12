@@ -17,7 +17,6 @@ import org.dev.nebula.core.events.EventBus;
 import org.dev.nebula.core.items.ItemBase;
 import org.dev.nebula.core.items.shards.IceShard;
 import org.dev.nebula.core.services.ItemsService;
-import org.dev.nebula.core.services.UsersService;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
@@ -25,8 +24,8 @@ import net.kyori.adventure.text.format.TextColor;
 public class IceLeggings extends ItemBase {
     public static final String ITEM_NAME = "ice_armor_leggings";
 
-    public IceLeggings(EventBus bus, UsersService userService, ItemsService itemsService) {
-        super(userService, itemsService);
+    public IceLeggings(EventBus bus) {
+        super(bus);
     }
 
     @Override
@@ -47,7 +46,6 @@ public class IceLeggings extends ItemBase {
     public CraftCondition[] getCraftConditions() {
         return new CraftCondition[]{
             new SameNebulaItem(
-                userService,
                 getCraftShape(),
                 getCraftMapping()
             )
@@ -64,7 +62,7 @@ public class IceLeggings extends ItemBase {
     @Override
     public Map<Character, ItemStack> getCraftMapping() {
         return Map.of(
-            'I', itemsService.getItems().get(IceShard.ITEM_NAME).createItemStack(1)
+            'I', ItemsService.items.get(IceShard.ITEM_NAME).createItemStack(1)
         );
     }
 

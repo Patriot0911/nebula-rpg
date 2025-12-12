@@ -11,7 +11,6 @@ import org.dev.nebula.core.achievements.AchievementBase;
 import org.dev.nebula.core.events.EventBus;
 import org.dev.nebula.core.events.busEvents.PotionEffectEvent;
 import org.dev.nebula.core.events.busEvents.items.PlayerItemConsumeBusEvent;
-import org.dev.nebula.core.services.UsersService;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
@@ -22,8 +21,8 @@ public class RottenFood extends AchievementBase {
 
     private final int IMUNE_PROGRESS_POINT = 5;
 
-    public RottenFood(EventBus eventBus, UsersService usersService) {
-        super(eventBus, usersService);
+    public RottenFood(EventBus eventBus) {
+        super(eventBus);
 
         eventBus.subscribe(PlayerItemConsumeBusEvent.class, this::onPlayerConsume);
         eventBus.subscribe(PotionEffectEvent.class, this::onEffect);
