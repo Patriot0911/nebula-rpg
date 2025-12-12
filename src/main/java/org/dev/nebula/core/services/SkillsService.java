@@ -7,11 +7,13 @@ import java.util.Map;
 import org.dev.nebula.core.db.dao.SkillDao;
 import org.dev.nebula.core.skills.PassiveSkillBase;
 import org.dev.nebula.core.skills.passive.LifeStealPassive;
+import org.dev.nebula.core.skills.passive.RottenFoodPasive;
 
 public class SkillsService {
     private final Map<String, Class<? extends PassiveSkillBase>> passiveSkills = new HashMap<>(
         Map.of(
-            LifeStealPassive.SKILL_NAME, LifeStealPassive.class
+            LifeStealPassive.SKILL_NAME, LifeStealPassive.class,
+            RottenFoodPasive.SKILL_NAME, RottenFoodPasive.class
         )
     );
 

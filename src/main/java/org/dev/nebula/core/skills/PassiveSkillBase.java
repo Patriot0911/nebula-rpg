@@ -1,10 +1,13 @@
 package org.dev.nebula.core.skills;
 
+import java.util.UUID;
+
 import org.dev.nebula.core.db.models.UserData;
 import org.dev.nebula.core.events.EventBus;
 import org.dev.nebula.core.events.PlayerEventListener;
 import org.dev.nebula.core.events.buses.PlayerBusEventBase;
 import org.dev.nebula.core.services.UsersService;
+import org.dev.nebula.core.skills.passive.LifeStealPassive;
 
 public abstract class PassiveSkillBase {
     private final EventBus eventBus;
@@ -23,4 +26,8 @@ public abstract class PassiveSkillBase {
             }
         );
     };
+
+    public static final UUID skillNameToUUID(String key) {
+        return UUID.nameUUIDFromBytes(key.getBytes());
+    }
 }

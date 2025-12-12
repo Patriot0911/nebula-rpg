@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
@@ -19,6 +20,7 @@ import org.dev.nebula.core.items.ItemBase;
 import org.dev.nebula.core.menus.MenuBuilder;
 import org.dev.nebula.core.services.AchievementsService;
 import org.dev.nebula.core.services.UsersService;
+import org.dev.nebula.core.utils.BannerCreator;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
@@ -144,6 +146,26 @@ public class AchievementsBook extends ItemBase {
                 menuEvent -> {
                     System.out.print("TEST");
                 }
+            );
+        }
+
+        builder.blockSlot(21)
+            .blockSlot(22)
+            .blockSlot(23);
+        if (pageSize != 0) {
+            builder.setItem(
+                21, BannerCreator.bannerArrowLeft(Material.BLUE_BANNER, DyeColor.BLUE, DyeColor.WHITE),
+                itemE -> createAchievementsMenu(page-1, userId)
+            );
+        }
+        builder.setItem(
+            22, BannerCreator.bannerCross(Material.BLUE_BANNER, DyeColor.BLUE, DyeColor.WHITE),
+            itemE -> itemE.getInventory().close()
+        );
+        if (to != list.size()) {
+            builder.setItem(
+                23, BannerCreator.bannerArrowRight(Material.BLUE_BANNER, DyeColor.BLUE, DyeColor.WHITE),
+                itemE -> createAchievementsMenu(page+1, userId)
             );
         }
 

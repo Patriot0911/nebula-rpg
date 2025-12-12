@@ -5,14 +5,15 @@ import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.entity.EntityPotionEffectEvent;
-import org.bukkit.potion.PotionEffectType;
 import org.dev.nebula.core.achievements.AchievementBase;
+import org.dev.nebula.core.db.models.AchievementUserData;
+import org.dev.nebula.core.db.models.SkillData;
+import org.dev.nebula.core.db.models.UserData;
 import org.dev.nebula.core.events.EventBus;
-import org.dev.nebula.core.events.busEvents.PotionEffectEvent;
 import org.dev.nebula.core.events.busEvents.items.PlayerItemConsumeBusEvent;
+import org.dev.nebula.core.services.UsersService;
+import org.dev.nebula.core.skills.PassiveSkillBase;
+import org.dev.nebula.core.skills.passive.RottenFoodPasive;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
@@ -23,41 +24,41 @@ public class RottenFood extends AchievementBase {
 
     private final int IMUNE_PROGRESS_POINT = 5;
 
+    public final int[] progressActions = new int[] {
+        IMUNE_PROGRESS_POINT,
+    };
+
     public RottenFood(EventBus eventBus) {
         super(eventBus);
 
         eventBus.subscribe(PlayerItemConsumeBusEvent.class, this::onPlayerConsume);
-        eventBus.subscribe(PotionEffectEvent.class, this::onEffect);
     }
 
     public void onPlayerConsume(PlayerItemConsumeBusEvent e) {
         UUID playerId = e.event.getPlayer().getUniqueId();
         if (e.event.getItem().getType() == Material.ROTTEN_FLESH) {
             int progressCount = getAchievementUserProgress(playerId);
+            UserData userData = UsersService.getUserData(playerId);
             if (!isAchieved(playerId)) {
                 addAchievementProgress(playerId, 1);
                 progressCount += 1;
-                e.event.getPlayer().sendActionBar(
-                    Component.text("Progress: " + progressCount).color(TextColor.color(255, 20, 150))
-                );
             }
-        }
-    }
-
-    @EventHandler
-    public void onEffect(PotionEffectEvent e) {
-        if (!(e.event.getEntity() instanceof Player player)) return;
-        if (e.event.getNewEffect() == null) return;
-
-        if (
-            e.event.getNewEffect().getType() == PotionEffectType.HUNGER &&
-            e.event.getCause() == EntityPotionEffectEvent.Cause.FOOD
-        ) {
-            UUID playerId = player.getUniqueId();
-            if (firstTierAvailable(playerId)) {
-                e.event.setCancelled(true);
-                player.sendActionBar(
-                    Component.text("No effects!").color(TextColor.color(255, 20, 150))
+            if (
+                progressCount >= progressActions[0] &&
+                !userData.hasSkill(RottenFoodPasive.SKILL_NAME)
+            ) {
+                SkillData rottenSkillData = new SkillData(
+                    PassiveSkillBase.skillNameToUUID(RottenFoodPasive.SKILL_NAME),
+                    playerId,
+                    RottenFoodPasive.SKILL_NAME,
+                    1,
+                    null
+                );
+                userData.addSkill(rottenSkillData);
+                e.event.getPlayer().sendActionBar(
+                    Component
+                        .text("Skill \"Rotten Food immuntiy\" recieved")
+                        .color(TextColor.color(255, 20, 150))
                 );
             }
         }
@@ -69,7 +70,9 @@ public class RottenFood extends AchievementBase {
         description.add(
             Component.text("Some test description go here")
         );
-        if (firstTierAvailable(userId)) {
+        UserData userData = UsersService.getUserData(userId);
+        AchievementUserData achievementUserData = userData.getAchievementUserData(KEY);
+        if (achievementUserData.getProgress() >= progressActions[0]) {
             description.add(
                 Component
                     .text("[Achieved] (I) Edibility of rotten flesh")
@@ -77,11 +80,6 @@ public class RottenFood extends AchievementBase {
             );
         }
         return description;
-    }
-
-    public boolean firstTierAvailable(UUID userId) {
-        int progress = getAchievementUserProgress(userId);
-        return progress >= IMUNE_PROGRESS_POINT;
     }
 
     @Override
