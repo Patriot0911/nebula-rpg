@@ -1,5 +1,7 @@
 package org.dev.nebula.core.achievements.implementation;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Material;
@@ -52,14 +54,34 @@ public class RottenFood extends AchievementBase {
             e.event.getCause() == EntityPotionEffectEvent.Cause.FOOD
         ) {
             UUID playerId = player.getUniqueId();
-            int progressCount = getAchievementUserProgress(playerId);
-            if (progressCount >= IMUNE_PROGRESS_POINT) {
+            if (firstTierAvailable(playerId)) {
                 e.event.setCancelled(true);
                 player.sendActionBar(
                     Component.text("No effects!").color(TextColor.color(255, 20, 150))
                 );
             }
         }
+    }
+
+    @Override
+    public List<Component> getDescription(UUID userId) {
+        List<Component> description = new ArrayList<Component>();
+        description.add(
+            Component.text("Some test description go here")
+        );
+        if (firstTierAvailable(userId)) {
+            description.add(
+                Component
+                    .text("[Achieved] (I) Edibility of rotten flesh")
+                    .color(TextColor.color(100, 255, 150))
+            );
+        }
+        return description;
+    }
+
+    public boolean firstTierAvailable(UUID userId) {
+        int progress = getAchievementUserProgress(userId);
+        return progress >= IMUNE_PROGRESS_POINT;
     }
 
     @Override

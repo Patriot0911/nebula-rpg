@@ -10,12 +10,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.dev.nebula.core.achievements.AchievementBase;
 import org.dev.nebula.core.db.models.AchievementUserData;
 import org.dev.nebula.core.db.models.UserData;
 import org.dev.nebula.core.events.EventBus;
 import org.dev.nebula.core.events.busEvents.items.PlayerInteractBusEvent;
 import org.dev.nebula.core.items.ItemBase;
 import org.dev.nebula.core.menus.MenuBuilder;
+import org.dev.nebula.core.services.AchievementsService;
 import org.dev.nebula.core.services.UsersService;
 
 import net.kyori.adventure.text.Component;
@@ -114,6 +116,8 @@ public class AchievementsBook extends ItemBase {
 
         for (int i = 0; i < pageItems.size(); i++) {
             var pageItem = pageItems.get(i);
+            AchievementBase achievement = AchievementsService.getAchievement(pageItem.getKey());
+            if (achievement == null) continue;
             ItemStack achItem = new ItemStack(Material.BOOK);
             ItemMeta meta = achItem.getItemMeta();
             meta.displayName(
@@ -121,15 +125,18 @@ public class AchievementsBook extends ItemBase {
                     .text(pageItem.getKey())
                     .color(TextColor.color(200, 50, 255))
             );
-            meta.lore(
-                List.of(
-                    Component
-                        .text("Progress: " + pageItem.getValue().getProgress() + "/" + "todo"),
-                    Component
-                        .text("Test")
-                        .color(TextColor.color(15, 200, 255))
-                )
+            List<Component> description = new ArrayList<>();
+            description.add(
+                Component
+                    .text("Progress: " + pageItem.getValue().getProgress() + "/" + achievement.getGoal())
             );
+            if (achievement.getDescription(userId) != null) {
+                description.addAll(achievement.getDescription(userId));
+            }
+            meta.lore(
+                description
+            );
+
             achItem.setItemMeta(meta);
             builder.blockSlot(i);
             builder.setItem(

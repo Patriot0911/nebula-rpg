@@ -14,7 +14,7 @@ public class AchievementsService {
             RottenFood.class
         )
     );
-    private final Map<String, AchievementBase> achievements = new HashMap<>();
+    private static final Map<String, AchievementBase> achievements = new HashMap<>();
 
     public AchievementsService() {}
 
@@ -26,5 +26,8 @@ public class AchievementsService {
     }
     public Map<String, AchievementBase> getAchievements() {
         return achievements;
+    }
+    public static AchievementBase getAchievement(String key) {
+        return AchievementsService.achievements.get(key);
     }
 }

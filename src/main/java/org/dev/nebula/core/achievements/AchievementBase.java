@@ -1,11 +1,14 @@
 package org.dev.nebula.core.achievements;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.dev.nebula.core.db.models.AchievementUserData;
 import org.dev.nebula.core.db.models.UserData;
 import org.dev.nebula.core.events.EventBus;
 import org.dev.nebula.core.services.UsersService;
+
+import net.kyori.adventure.text.Component;
 
 public abstract class AchievementBase {
     protected EventBus eventBus;
@@ -42,5 +45,9 @@ public abstract class AchievementBase {
         AchievementUserData achievementUserData = userData.getAchievementUserData(getKey());
         if (achievementUserData == null) return false;
         return achievementUserData.getProgress() == getGoal();
+    }
+
+    public List<Component> getDescription(UUID userId) {
+        return null;
     }
 }
