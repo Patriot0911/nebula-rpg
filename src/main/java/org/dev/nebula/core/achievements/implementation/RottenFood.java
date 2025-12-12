@@ -67,19 +67,20 @@ public class RottenFood extends AchievementBase {
     @Override
     public List<Component> getDescription(UUID userId) {
         List<Component> description = new ArrayList<Component>();
-        description.add(
-            Component.text("Some test description go here")
-        );
         UserData userData = UsersService.getUserData(userId);
         AchievementUserData achievementUserData = userData.getAchievementUserData(KEY);
         if (achievementUserData.getProgress() >= progressActions[0]) {
             description.add(
                 Component
-                    .text("[Achieved] (I) Edibility of rotten flesh")
-                    .color(TextColor.color(100, 255, 150))
+                    .text("[Achieved] Rotten Food immuntiy (I)")
+                    .color(TextColor.color(121, 212, 91))
             );
         }
         return description;
+    }
+    @Override
+    public Component getName() {
+        return Component.text("Undead Consumer");
     }
 
     @Override

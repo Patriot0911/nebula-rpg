@@ -7,7 +7,6 @@ import org.dev.nebula.core.events.EventBus;
 import org.dev.nebula.core.events.PlayerEventListener;
 import org.dev.nebula.core.events.buses.PlayerBusEventBase;
 import org.dev.nebula.core.services.UsersService;
-import org.dev.nebula.core.skills.passive.LifeStealPassive;
 
 public abstract class PassiveSkillBase {
     private final EventBus eventBus;

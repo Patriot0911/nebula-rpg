@@ -123,14 +123,12 @@ public class AchievementsBook extends ItemBase {
             ItemStack achItem = new ItemStack(Material.BOOK);
             ItemMeta meta = achItem.getItemMeta();
             meta.displayName(
-                Component
-                    .text(pageItem.getKey())
-                    .color(TextColor.color(200, 50, 255))
+                achievement.getName()
             );
             List<Component> description = new ArrayList<>();
             description.add(
                 Component
-                    .text("Progress: " + pageItem.getValue().getProgress() + "/" + achievement.getGoal())
+                    .text("Current Progress: [" + pageItem.getValue().getProgress() + "/" + achievement.getGoal() + "]")
             );
             if (achievement.getDescription(userId) != null) {
                 description.addAll(achievement.getDescription(userId));

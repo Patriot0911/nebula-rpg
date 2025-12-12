@@ -50,4 +50,7 @@ public abstract class AchievementBase {
     public List<Component> getDescription(UUID userId) {
         return null;
     }
+    public Component getName() {
+        return null;
+    }
 }
