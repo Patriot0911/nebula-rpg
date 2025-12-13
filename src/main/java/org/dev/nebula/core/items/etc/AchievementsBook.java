@@ -150,14 +150,14 @@ public class AchievementsBook extends ItemBase {
         builder.blockSlot(21)
             .blockSlot(22)
             .blockSlot(23);
-        if (pageSize != 0) {
+        if (page != 0) {
             builder.setItem(
                 21, BannerCreator.bannerArrowLeft(Material.BLUE_BANNER, DyeColor.BLUE, DyeColor.WHITE),
                 itemE -> createAchievementsMenu(page-1, userId)
             );
         }
         builder.setItem(
-            22, BannerCreator.bannerCross(Material.BLUE_BANNER, DyeColor.BLUE, DyeColor.WHITE),
+            22, BannerCreator.bannerCross(Material.BLUE_BANNER, DyeColor.WHITE),
             itemE -> itemE.getInventory().close()
         );
         if (to != list.size()) {

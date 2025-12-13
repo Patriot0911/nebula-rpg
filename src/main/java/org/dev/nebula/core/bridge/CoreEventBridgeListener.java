@@ -8,6 +8,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.entity.EntityPotionEffectEvent;
+import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
@@ -16,6 +17,7 @@ import org.bukkit.event.player.PlayerItemBreakEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.dev.nebula.core.events.EventBus;
 import org.dev.nebula.core.events.busEvents.PotionEffectEvent;
+import org.dev.nebula.core.events.busEvents.TargetByEntityEvent;
 import org.dev.nebula.core.events.busEvents.damage.DamageGiveEvent;
 import org.dev.nebula.core.events.busEvents.damage.DamagePostEvent;
 import org.dev.nebula.core.events.busEvents.damage.DamageTakeEvent;
@@ -40,12 +42,19 @@ public class CoreEventBridgeListener implements Listener {
     @EventHandler
     public void onKill(EntityDeathEvent event) {
         var killer = event.getEntity().getKiller();
-        if(killer != null && killer instanceof Player) {
+        if (killer != null && killer instanceof Player) {
             eventBus.publish(new PlayerKillEvent(event, killer, event.getEntity()));
         }
-        if(event.getEntity() != null && event.getEntity() instanceof Player victim) {
+        if (event.getEntity() != null && event.getEntity() instanceof Player victim) {
             eventBus.publish(new PlayerDeathEvent(event, victim));
         }
+    }
+
+    @EventHandler
+    public void onTargetPlayerByEntity(EntityTargetEvent event) {
+        eventBus.publish(
+            new TargetByEntityEvent(event)
+        );
     }
 
     @EventHandler

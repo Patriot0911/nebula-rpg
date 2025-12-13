@@ -66,7 +66,7 @@ public class CraftManager {
     }
 
     public void registerCrafts() {
-        for (Entry<String, ItemBase> e : ItemsService.items.entrySet()) {
+        for (Entry<String, ItemBase> e : ItemsService.getItems().entrySet()) {
             ItemBase item = e.getValue();
             if (item.getCraftMapping() == null || (item.getCraftShape() == null && item.getCraftShapeLess() == null))
                 continue;

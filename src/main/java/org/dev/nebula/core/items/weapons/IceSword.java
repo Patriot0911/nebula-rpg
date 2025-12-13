@@ -117,7 +117,7 @@ public class IceSword extends ItemBase {
         if (!isSameItem(itemMeta)) return;
 
         e.event.getPlayer().getInventory().addItem(
-            ItemsService.items.get(IceShard.ITEM_NAME).createItemStack(
+            ItemsService.getItem(IceShard.ITEM_NAME).createItemStack(
                 1 + (int) (Math.random() * 2)
             )
         );

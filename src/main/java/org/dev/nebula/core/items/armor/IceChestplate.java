@@ -62,7 +62,7 @@ public class IceChestplate extends ItemBase {
     @Override
     public Map<Character, ItemStack> getCraftMapping() {
         return Map.of(
-            'I', ItemsService.items.get(IceShard.ITEM_NAME).createItemStack(1)
+            'I', ItemsService.getItem(IceShard.ITEM_NAME).createItemStack(1)
         );
     }
 

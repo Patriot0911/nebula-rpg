@@ -6,9 +6,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.dev.nebula.core.items.weapons.SimpleSword;
 import org.dev.nebula.core.menus.MenuBuilder;
-import org.dev.nebula.core.services.ItemsService;
 
 public class AdminMenuCommand implements CommandExecutor {
 
@@ -26,9 +24,6 @@ public class AdminMenuCommand implements CommandExecutor {
             return true;
         }
 
-        ItemStack item = ItemsService.items.get(SimpleSword.ITEM_NAME).createItemStack(1);
-
-        player.getInventory().addItem(item);
         openMenu(1, player);
         return true;
     }

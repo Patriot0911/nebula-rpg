@@ -7,8 +7,10 @@ import java.util.Map;
 
 import org.bukkit.NamespacedKey;
 import org.dev.nebula.core.spawn.SpawnDefinition;
+import org.dev.nebula.core.spawn.drops.FrozenKnightDropList;
 import org.dev.nebula.core.spawn.drops.MahahaDropList;
 import org.dev.nebula.core.spawn.interfaces.MobDropList;
+import org.dev.nebula.core.spawn.packs.FrostElitePack;
 import org.dev.nebula.core.spawn.packs.FrostZombiePack;
 
 public class MobsService {
@@ -16,13 +18,15 @@ public class MobsService {
 
     private final List<SpawnDefinition> definitions = new ArrayList<>(
         List.of(
-            new FrostZombiePack().toSpawnDefinition()
+            new FrostZombiePack().toSpawnDefinition(),
+            new FrostElitePack().toSpawnDefinition()
         )
     );
 
     private final List<Class<? extends MobDropList>> mobDropList = new ArrayList<Class<? extends MobDropList>>(
         List.of(
-            MahahaDropList.class
+            MahahaDropList.class,
+            FrozenKnightDropList.class
         )
     );
     private final Map<String, MobDropList> mobDrops = new HashMap<>();

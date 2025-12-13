@@ -11,24 +11,24 @@ import org.dev.nebula.core.items.armor.IceChestplate;
 import org.dev.nebula.core.items.armor.IceHelmet;
 import org.dev.nebula.core.items.armor.IceLeggings;
 import org.dev.nebula.core.items.etc.AchievementsBook;
+import org.dev.nebula.core.items.shards.IceCrystal;
 import org.dev.nebula.core.items.shards.IceShard;
 import org.dev.nebula.core.items.weapons.IceSword;
-import org.dev.nebula.core.items.weapons.SimpleSword;
 
 public class ItemsService {
     private final List<Class<? extends ItemBase>> itemsList = new ArrayList<Class<? extends ItemBase>>(
         List.of(
-            SimpleSword.class,
             IceSword.class,
             IceShard.class,
             IceBoots.class,
             IceLeggings.class,
             IceChestplate.class,
             IceHelmet.class,
-            AchievementsBook.class
+            AchievementsBook.class,
+            IceCrystal.class
         )
     );
-    public static final Map<String, ItemBase> items = new HashMap<>();
+    private static final Map<String, ItemBase> items = new HashMap<>();
 
     public ItemsService() {}
 
@@ -38,7 +38,10 @@ public class ItemsService {
     public void registerItem(String key, ItemBase item) {
         items.put(key, item);
     }
-    public Map<String, ItemBase> getItems() {
+    public static Map<String, ItemBase> getItems() {
         return items;
+    }
+    public static ItemBase getItem(String key) {
+        return items.get(key);
     }
 }
