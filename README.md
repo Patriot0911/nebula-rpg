@@ -19,16 +19,16 @@ Project base tech stack:
 
 ## Core System Features
 Achievements
-The system features an achievement system that allows you to track the progress of certain user actions, which can be defined by events subscribed to an internal “bus” that receives events via an official event bridge. *There were also plans to add custom events: skills, achievements, experience, etc.
+> The system features an achievement system that allows you to track the progress of certain user actions, which can be defined by events subscribed to an internal “bus” that receives events via an official event bridge. *There were also plans to add custom events: skills, achievements, experience, etc.
 
 Skills
-The skill system allows you to store certain data about the user and use it to modify or change the normal behavior of the user's game. Accordingly, skills can appear as simple level values or additional values, in the form of objects or maps, if we take the concept of Java and the current implementation.
+> The skill system allows you to store certain data about the user and use it to modify or change the normal behavior of the user's game. Accordingly, skills can appear as simple level values or additional values, in the form of objects or maps, if we take the concept of Java and the current implementation.
 
 Items
-Accordingly, the creation of items and their crafting is designed so that crafting can be dependent on other factors and requires exclusive items rather than vanilla analogues. That is, these items will be unique for creating custom subjects and cannot be replaced by ordinary analogues.
+> Accordingly, the creation of items and their crafting is designed so that crafting can be dependent on other factors and requires exclusive items rather than vanilla analogues. That is, these items will be unique for creating custom subjects and cannot be replaced by ordinary analogues.
 
 Mobs
-Entities can have modifications to their base values, interact with other aspects of the plugin, and be grouped into “packs.” Mob packs can be used to create spawn conditions that are responsible for ensuring that our mobs can appear in the normal world, with certain chances, conditions, drops, etc.
+> Entities can have modifications to their base values, interact with other aspects of the plugin, and be grouped into “packs.” Mob packs can be used to create spawn conditions that are responsible for ensuring that our mobs can appear in the normal world, with certain chances, conditions, drops, etc.
 
 ## License
 This project is open source and available under the MIT License.
